@@ -12,7 +12,7 @@ function UnauthSidebar() {
         </CardHeader>
         <CardContent>
           <p className="text-center text-muted-foreground mb-4">Login to access your profile and connect with others.</p>
-          <SignInButton mode="modal">
+          <SignInButton mode="modal" fallbackRedirectUrl="/">
             <Button className="w-full mt-2" variant="default">
               Sign in
             </Button>

@@ -25,7 +25,7 @@ async function DesktopNavbar() {
         </div>
       ) : (
         <>
-          <SignInButton mode="modal">
+          <SignInButton mode="modal" fallbackRedirectUrl="/">
             <Button className="lg:hidden">Sign In</Button>
           </SignInButton>
         </>

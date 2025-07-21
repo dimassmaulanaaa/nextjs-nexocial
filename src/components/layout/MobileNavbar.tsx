@@ -55,7 +55,7 @@ function MobileNavbar() {
               </>
             ) : (
               <div className="py-5">
-                <SignInButton>
+                <SignInButton fallbackRedirectUrl="/">
                   <Button className="w-full">Sign In</Button>
                 </SignInButton>
               </div>
