@@ -9,7 +9,7 @@ interface UserAvatarProps {
 function UserAvatar({ src, fallback, size = 4 }: UserAvatarProps) {
   return (
     <Avatar className={`w-${size} h-${size}`}>
-      <AvatarImage src={src || "/avatar.png"} />
+      <AvatarImage src={src || ""} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>
   );

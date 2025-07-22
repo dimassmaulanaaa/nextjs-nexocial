@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { SignInButton } from "@clerk/nextjs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
