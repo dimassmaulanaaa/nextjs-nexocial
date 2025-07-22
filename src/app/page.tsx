@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { syncUser } from "@/actions/user.action";
-import CreatePostForm from "@/components/forms/CreatePostForm";
+import CreatePostForm from "@/components/post/CreatePostForm";
 import WhoToFollow from "@/components/widget/WhoToFollow";
 
 export default async function Home() {
