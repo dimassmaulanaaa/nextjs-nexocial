@@ -1,8 +1,8 @@
 import { Loader2Icon } from "lucide-react";
 
-interface LoadingSpinnerProps {
+type LoadingSpinnerProps = {
   size?: number;
-}
+};
 
 function LoadingSpinner({ size = 4 }: LoadingSpinnerProps) {
   return (

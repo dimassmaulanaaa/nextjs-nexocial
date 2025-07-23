@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { toggleFollow } from "@/actions/user.action";
+import { toggleFollow } from "@/actions/follows.action";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 
-interface FollowButtonProps {
+type FollowButtonProps = {
   userId: string;
-}
+};
 
 function FollowButton({ userId }: FollowButtonProps) {
   const [isLoading, setIsLoading] = useState(false);

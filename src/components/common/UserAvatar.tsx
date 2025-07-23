@@ -1,10 +1,10 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-interface UserAvatarProps {
+type UserAvatarProps = {
   src?: string;
   fallback: string;
   size?: number;
-}
+};
 
 function UserAvatar({ src, fallback, size = 4 }: UserAvatarProps) {
   return (
