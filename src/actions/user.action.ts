@@ -9,7 +9,7 @@ export async function syncUser() {
     const { userId } = await auth();
     const user = await currentUser();
 
-    if (!userId || !user) throw new Error("Authentication required");
+    if (!userId || !user) throw new Error("Authentication required. Please log in");
 
     const dbUser = await prisma.user.upsert({
       where: {
@@ -130,7 +130,7 @@ export async function toggleFollow(targetUserId: string) {
   try {
     const userId = await getCurrentUserId();
 
-    if (!userId) throw new Error("Authentication required");
+    if (!userId) throw new Error("Authentication required. Please log in");
 
     if (userId === targetUserId) throw new Error("You can't follow your own account");
 
