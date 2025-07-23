@@ -36,7 +36,7 @@ export default function RootLayout({
             <div className="min-h-screen">
               <Navbar />
 
-              <main className="py-7">
+              <main className="py-5 lg:py-7">
                 <div className="max-w-7xl mx-auto px-3">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
                     <div className="hidden lg:block lg:col-span-3">
