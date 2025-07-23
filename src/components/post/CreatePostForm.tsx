@@ -37,7 +37,7 @@ function CreatePostForm() {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("An unknown error occurred");
+        toast.error("Something went wrong. Please check your connection and try again");
       }
     } finally {
       setLoading(false);

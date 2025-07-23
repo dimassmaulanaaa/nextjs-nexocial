@@ -23,7 +23,7 @@ function FollowButton({ userId }: FollowButtonProps) {
       if (error instanceof Error) {
         toast.error(error.message);
       } else {
-        toast.error("An unknown error occured");
+        toast.error("Something went wrong. Please check your connection and try again");
       }
     } finally {
       setIsLoading(false);
