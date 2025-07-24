@@ -1,14 +1,14 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 type UserAvatarProps = {
+  className?: string;
   src?: string;
-  fallback: string;
-  size?: number;
+  fallback?: string;
 };
 
-function UserAvatar({ src, fallback, size = 4 }: UserAvatarProps) {
+function UserAvatar({ className = "size-8", src, fallback = "U" }: UserAvatarProps) {
   return (
-    <Avatar className={`w-${size} h-${size}`}>
+    <Avatar className={`${className}`}>
       <AvatarImage src={src || ""} />
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>

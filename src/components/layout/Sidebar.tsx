@@ -3,8 +3,8 @@ import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import { MapPinIcon, LinkIcon } from "lucide-react";
 import { getUserByClerkId } from "@/actions/user.action";
+import UserAvatar from "@/components/common/UserAvatar";
 import UnauthSidebar from "@/components/layout/UnauthSidebar";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
@@ -23,9 +23,11 @@ async function Sidebar() {
         <CardContent className="pt-6">
           <div className="flex flex-col items-center text-center">
             <Link href={`/profile/${user.username}`} className="flex flex-col items-center justify-center">
-              <Avatar className="w-20 h-20 border-2 ">
-                <AvatarImage src={user.image || "/avatar.png"} />
-              </Avatar>
+              <UserAvatar
+                className="size-20 border-2"
+                src={user.image ?? ""}
+                fallback={(user.name?.charAt(0) ?? "").trim()}
+              />
 
               <div className="mt-4 space-y-1">
                 <h3 className="font-semibold">{user.name}</h3>

@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useUser, SignInButton } from "@clerk/nextjs";
 import { BellIcon, HomeIcon, MenuIcon } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/common/ModeToggle";
+import UserAvatar from "@/components/common/UserAvatar";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 function MobileNavbar() {
   const { user } = useUser();
@@ -44,10 +44,11 @@ function MobileNavbar() {
                   <div className="border-t my-4" />
                   <Button variant="ghost" className="flex items-center gap-4 justify-start text-base" asChild>
                     <Link href={`/profile/${user.username ?? user.id}`}>
-                      <Avatar className="w-5 h-5">
-                        <AvatarImage src={user.imageUrl} alt={user.fullName ?? "User profile"} />
-                        <AvatarFallback>{user.firstName?.charAt(0)}</AvatarFallback>
-                      </Avatar>
+                      <UserAvatar
+                        className="size-5"
+                        src={user.imageUrl}
+                        fallback={(user.firstName?.charAt(0) ?? "") + (user.lastName?.charAt(0) ?? "").trim()}
+                      />
                       Profile
                     </Link>
                   </Button>

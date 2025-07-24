@@ -34,23 +34,21 @@ function CreatePostForm() {
         toast.error(result.error || "Failed to create post. Please try again");
       }
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("Something went wrong. Please check your connection and try again");
-      }
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-5">
       <CardContent className="pt-6">
         <div className="space-y-4">
           <div className="flex space-x-4">
             <UserAvatar
-              size={10}
+              className="size-10"
               src={user?.imageUrl}
               fallback={(user?.firstName?.charAt(0) ?? "") + (user?.lastName?.charAt(0) ?? "").trim() || "U"}
             />
