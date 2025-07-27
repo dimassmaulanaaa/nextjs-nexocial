@@ -15,13 +15,13 @@ function PostUpload() {
   const { user } = useUser();
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
 
   const handleSubmit = async () => {
     if (!content.trim() && !imageUrl) return;
 
-    setLoading(true);
+    setIsLoading(true);
     try {
       const result = await createPost(content, imageUrl);
 
@@ -38,7 +38,7 @@ function PostUpload() {
         error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
       );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -57,7 +57,7 @@ function PostUpload() {
               className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-0 text-base"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              disabled={loading}
+              disabled={isLoading}
             />
           </div>
 
@@ -69,7 +69,7 @@ function PostUpload() {
                 size="sm"
                 className="text-muted-foreground hover:text-primary"
                 onClick={() => setShowImageUpload(!showImageUpload)}
-                disabled={loading}
+                disabled={isLoading}
               >
                 <ImageIcon className="size-4 mr-2" />
                 Photo
@@ -78,9 +78,9 @@ function PostUpload() {
             <Button
               className="flex items-center"
               onClick={handleSubmit}
-              disabled={(!content.trim() && !imageUrl) || loading}
+              disabled={(!content.trim() && !imageUrl) || isLoading}
             >
-              {loading ? (
+              {isLoading ? (
                 <>
                   <LoadingSpinner />
                 </>
