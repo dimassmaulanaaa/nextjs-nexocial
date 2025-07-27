@@ -14,8 +14,8 @@ export default async function Home() {
   const posts = await getPosts();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-10 gap-5">
-      <div className="lg:col-span-6">
+    <div className="grid grid-cols-1 xl:grid-cols-10 gap-5">
+      <div className="xl:col-span-6 pb-16 md:pb-0">
         {user ? <PostUpload /> : null}
 
         <div className="space-y-5">
@@ -25,8 +25,10 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="hidden lg:block lg:col-span-4 sticky top-20">
-        <WhoToFollow />
+      <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start">
+        <div className="space-y-5">
+          <WhoToFollow />
+        </div>
       </div>
     </div>
   );

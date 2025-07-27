@@ -4,8 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import Navbar from "@/components/layout/Navbar";
-import Sidebar from "@/components/layout/Sidebar";
+import DesktopNavigation from "@/components/layout/DesktopNavigation";
+import MobileNavigation from "@/components/layout/MobileNavigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,18 +34,17 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="min-h-screen">
-              <Navbar />
+              <MobileNavigation />
 
-              <main className="py-5 lg:py-7">
-                <div className="max-w-7xl mx-auto px-3">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                    <div className="hidden lg:block lg:col-span-3">
-                      <Sidebar />
-                    </div>
-                    <div className="lg:col-span-9">{children}</div>
+              <div className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-12">
+                  <div className="hidden md:block md:col-span-1 lg:col-span-3">
+                    <DesktopNavigation />
                   </div>
+
+                  <main className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">{children}</main>
                 </div>
-              </main>
+              </div>
             </div>
             <Toaster />
           </ThemeProvider>
