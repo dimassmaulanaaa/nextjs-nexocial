@@ -92,7 +92,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
                 <UserAvatar
                   className="size-8 sm:size-9"
                   src={post.author.image ?? ""}
-                  fallback={(post.author.name?.charAt(0) ?? "").trim() || "U"}
+                  fallback={(post.author.username?.charAt(0).toUpperCase() ?? "").trim() || "U"}
                 />
               </Link>
             ) : (
@@ -101,7 +101,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
                   <UserAvatar
                     className="size-8 sm:size-9"
                     src={post.author.image ?? ""}
-                    fallback={(post.author.name?.charAt(0) ?? "").trim() || "U"}
+                    fallback={(post.author.username?.charAt(0).toUpperCase() ?? "").trim() || "U"}
                   />
                 </Link>
               </SignInButton>

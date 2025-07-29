@@ -19,7 +19,7 @@ function CommentList({ comment }: CommentListProps) {
         <UserAvatar
           className="size-7 flex-shrink-0"
           src={comment.author.image ?? ""}
-          fallback={comment.author.name?.charAt(0).toUpperCase() || "U"}
+          fallback={comment.author.username?.charAt(0).toUpperCase() || "U"}
         />
       </Link>
       <div className="flex-1 min-w-0">

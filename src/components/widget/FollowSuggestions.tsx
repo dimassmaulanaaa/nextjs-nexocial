@@ -23,7 +23,7 @@ async function FollowSuggestions() {
                   <UserAvatar
                     className="size-10"
                     src={user.image || ""}
-                    fallback={(user.name?.charAt(0) ?? "").trim() || "U"}
+                    fallback={(user.username?.charAt(0).toUpperCase() ?? "").trim() || "U"}
                   />
                 </Link>
                 <div className="space-y-1">
