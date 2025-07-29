@@ -3,7 +3,7 @@ import { syncUser, getCurrentUserId } from "@/actions/user.action";
 import { getPosts } from "@/actions/post.action";
 import PostFeed from "@/components/post/PostFeed";
 import PostUpload from "@/components/post/PostUpload";
-import WhoToFollow from "@/components/widget/WhoToFollow";
+import FollowSuggestions from "@/components/widget/FollowSuggestions";
 
 export default async function Home() {
   const user = await currentUser();
@@ -28,7 +28,7 @@ export default async function Home() {
 
         <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start">
           <div className="space-y-5">
-            <WhoToFollow />
+            <FollowSuggestions />
           </div>
         </div>
       </main>

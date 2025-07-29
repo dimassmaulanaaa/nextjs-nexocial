@@ -4,7 +4,7 @@ import UserAvatar from "@/components/common/UserAvatar";
 import FollowButton from "@/components/common/FollowButton";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-async function WhoToFollow() {
+async function FollowSuggestions() {
   const users = await getSuggestedUsers();
 
   if (users.length === 0) return null;
@@ -12,7 +12,7 @@ async function WhoToFollow() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">Who to follow</CardTitle>
+        <CardTitle className="text-xl">Suggested for you</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-5 pb-3">
@@ -41,4 +41,4 @@ async function WhoToFollow() {
     </Card>
   );
 }
-export default WhoToFollow;
+export default FollowSuggestions;
