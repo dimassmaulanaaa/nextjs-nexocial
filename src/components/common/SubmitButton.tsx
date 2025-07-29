@@ -5,7 +5,7 @@ import { type ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 
 type SubmitButtonProps = ButtonProps & {
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
 function SubmitButton({ children, isLoading, ...props }: SubmitButtonProps) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { SendIcon } from "lucide-react";
 import { createComment } from "@/actions/comment.action";
@@ -51,16 +51,25 @@ function CommentForm({ postId }: CommentFormProps) {
           autoFocus
         />
         <div className="flex justify-end mt-2">
-          <SubmitButton
-            size="sm"
-            className="flex items-center gap-2 px-3"
-            isLoading={isLoading}
-            onClick={handleSubmit}
-            disabled={!newComment.trim() || isLoading}
-          >
-            <SendIcon className="size-4" />
-            <span>Comment</span>
-          </SubmitButton>
+          {user ? (
+            <SubmitButton
+              size="sm"
+              className="flex items-center gap-2 px-3"
+              isLoading={isLoading}
+              onClick={handleSubmit}
+              disabled={!newComment.trim() || isLoading}
+            >
+              <SendIcon className="size-4" />
+              <span>Comment</span>
+            </SubmitButton>
+          ) : (
+            <SignInButton mode="modal" fallbackRedirectUrl="/">
+              <SubmitButton size="sm" className="flex items-center gap-2 px-3">
+                <SendIcon className="size-4" />
+                <span>Comment</span>
+              </SubmitButton>
+            </SignInButton>
+          )}
         </div>
       </div>
     </div>
