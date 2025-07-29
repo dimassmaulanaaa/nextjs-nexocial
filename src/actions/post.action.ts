@@ -37,7 +37,6 @@ export async function getPosts() {
           select: {
             id: true,
             username: true,
-            name: true,
             image: true,
           },
         },
@@ -47,7 +46,6 @@ export async function getPosts() {
               select: {
                 id: true,
                 username: true,
-                name: true,
                 image: true,
               },
             },

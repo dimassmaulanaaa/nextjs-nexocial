@@ -92,11 +92,6 @@ export async function getSuggestedUsers() {
         name: true,
         username: true,
         image: true,
-        _count: {
-          select: {
-            followers: true,
-          },
-        },
       },
       take: 5,
     });
