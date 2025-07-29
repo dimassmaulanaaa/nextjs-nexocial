@@ -31,7 +31,7 @@ function FollowButton({ userId }: FollowButtonProps) {
   };
 
   return (
-    <Button size={"sm"} variant={"secondary"} onClick={handleFollow} disabled={isLoading} className="w-20">
+    <Button size={"sm"} onClick={handleFollow} disabled={isLoading} className="px-5">
       {isLoading ? <LoadingSpinner /> : "Follow"}
     </Button>
   );

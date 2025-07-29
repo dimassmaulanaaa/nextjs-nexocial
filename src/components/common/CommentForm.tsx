@@ -5,9 +5,8 @@ import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { SendIcon } from "lucide-react";
 import { createComment } from "@/actions/comment.action";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import SubmitButton from "@/components/common/SubmitButton";
 import UserAvatar from "@/components/common/UserAvatar";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 type CommentFormProps = {
@@ -51,23 +50,16 @@ function CommentForm({ postId }: CommentFormProps) {
           disabled={isLoading}
         />
         <div className="flex justify-end mt-2">
-          <Button
+          <SubmitButton
             size="sm"
+            className="flex items-center gap-2 px-3"
+            isLoading={isLoading}
             onClick={handleSubmit}
-            className="flex items-center gap-2"
             disabled={!newComment.trim() || isLoading}
           >
-            {isLoading ? (
-              <>
-                <LoadingSpinner />
-              </>
-            ) : (
-              <>
-                <SendIcon className="size-4" />
-                Comment
-              </>
-            )}
-          </Button>
+            <SendIcon className="size-4" />
+            <span>Comment</span>
+          </SubmitButton>
         </div>
       </div>
     </div>

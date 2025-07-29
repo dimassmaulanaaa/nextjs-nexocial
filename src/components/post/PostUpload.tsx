@@ -5,7 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { ImageIcon, SendIcon } from "lucide-react";
 import { createPost } from "@/actions/post.action";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import SubmitButton from "@/components/common/SubmitButton";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,22 +75,16 @@ function PostUpload() {
                 Photo
               </Button>
             </div>
-            <Button
-              className="flex items-center"
+
+            <SubmitButton
+              className="flex items-center gap-2 px-5"
+              isLoading={isLoading}
               onClick={handleSubmit}
               disabled={(!content.trim() && !imageUrl) || isLoading}
             >
-              {isLoading ? (
-                <>
-                  <LoadingSpinner />
-                </>
-              ) : (
-                <>
-                  <SendIcon className="size-4 mr-2" />
-                  Post
-                </>
-              )}
-            </Button>
+              <SendIcon className="size-4" />
+              <span>Post</span>
+            </SubmitButton>
           </div>
         </div>
       </CardContent>
