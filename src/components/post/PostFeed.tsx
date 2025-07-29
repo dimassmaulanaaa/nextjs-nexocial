@@ -136,7 +136,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
           {/* IMAGE CONTENT */}
           {post.image && (
             <div className="rounded-lg overflow-hidden">
-              <Image src={post.image} alt="Post content" width={500} height={300} className="w-full h-auto object-cover" />{" "}
+              <Image src={post.image} alt="Post content" width={500} height={300} className="w-full h-auto object-cover" />
             </div>
           )}
 
