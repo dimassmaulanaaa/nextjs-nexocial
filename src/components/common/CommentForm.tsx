@@ -48,6 +48,7 @@ function CommentForm({ postId }: CommentFormProps) {
           onChange={(e) => setNewComment(e.target.value)}
           className="min-h-[80px] resize-none"
           disabled={isLoading}
+          autoFocus
         />
         <div className="flex justify-end mt-2">
           <SubmitButton
