@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { formatDistanceToNow } from "date-fns";
 import { getPosts, deletePost } from "@/actions/post.action";
@@ -87,22 +87,42 @@ function PostFeed({ post, userId }: PostFeedProps) {
         <div className="space-y-4">
           {/* HEADER & CONTENT */}
           <div className="flex space-x-3 sm:space-x-4">
-            <Link href={`/profile/${post.author.username}`}>
-              <UserAvatar
-                className="size-8 sm:size-9"
-                src={post.author.image ?? ""}
-                fallback={(post.author.name?.charAt(0) ?? "").trim() || "U"}
-              />
-            </Link>
+            {user ? (
+              <Link href={`/profile/${post.author.username}`}>
+                <UserAvatar
+                  className="size-8 sm:size-9"
+                  src={post.author.image ?? ""}
+                  fallback={(post.author.name?.charAt(0) ?? "").trim() || "U"}
+                />
+              </Link>
+            ) : (
+              <SignInButton mode="modal">
+                <Link href="">
+                  <UserAvatar
+                    className="size-8 sm:size-9"
+                    src={post.author.image ?? ""}
+                    fallback={(post.author.name?.charAt(0) ?? "").trim() || "U"}
+                  />
+                </Link>
+              </SignInButton>
+            )}
 
             {/* POST HEADER & TEXT CONTENT */}
             <div className="flex-1 min-w-0">
               {/* POST HEADER */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 truncate">
                 <div className="flex items-center space-x-2">
-                  <Link href={`/profile/${post.author.username}`} className="font-semibold truncate">
-                    {post.author.username}
-                  </Link>
+                  {user ? (
+                    <Link href={`/profile/${post.author.username}`} className="font-semibold truncate">
+                      {post.author.username}
+                    </Link>
+                  ) : (
+                    <SignInButton mode="modal">
+                      <Link href="" className="font-semibold truncate">
+                        {post.author.username}
+                      </Link>
+                    </SignInButton>
+                  )}
                   <span className="text-xs text-muted-foreground">•</span>
                   <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(post.createdAt))} ago</span>
                 </div>
