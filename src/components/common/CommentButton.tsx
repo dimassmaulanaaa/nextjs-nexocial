@@ -25,7 +25,7 @@ function CommentButton({ isAuthenticated, showComments, commentCount, onClick }:
           <span>{commentCount}</span>
         </Button>
       ) : (
-        <SignInButton mode="modal">
+        <SignInButton mode="modal" fallbackRedirectUrl="/">
           <Button variant="ghost" size="sm" className="text-muted-foreground gap-2">
             <MessageCircleIcon className="size-5" />
             <span>{commentCount}</span>

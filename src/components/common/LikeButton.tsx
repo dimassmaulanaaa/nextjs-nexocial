@@ -25,7 +25,7 @@ function LikeButton({ isAuthenticated, hasLiked, optimisticLikes, onClick }: Lik
           <span>{optimisticLikes}</span>
         </Button>
       ) : (
-        <SignInButton mode="modal">
+        <SignInButton mode="modal" fallbackRedirectUrl="/">
           <Button variant="ghost" size="sm" className="text-muted-foreground">
             <HeartIcon className="size-5" />
             <span>{optimisticLikes}</span>

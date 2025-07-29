@@ -96,7 +96,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
                 />
               </Link>
             ) : (
-              <SignInButton mode="modal">
+              <SignInButton mode="modal" fallbackRedirectUrl="/">
                 <Link href="">
                   <UserAvatar
                     className="size-8 sm:size-9"
@@ -117,7 +117,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
                       {post.author.username}
                     </Link>
                   ) : (
-                    <SignInButton mode="modal">
+                    <SignInButton mode="modal" fallbackRedirectUrl="/">
                       <Link href="" className="font-semibold truncate">
                         {post.author.username}
                       </Link>
