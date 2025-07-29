@@ -42,7 +42,7 @@ export default function RootLayout({
                     <DesktopNavigation />
                   </div>
 
-                  <main className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">{children}</main>
+                  <div className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">{children}</div>
                 </div>
               </div>
             </div>
