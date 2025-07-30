@@ -42,7 +42,17 @@ export default function RootLayout({
                     <DesktopNavigation />
                   </div>
 
-                  <div className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">{children}</div>
+                  <div className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">
+                    <main>{children}</main>
+
+                    <footer className="grid grid-cols-1 xl:grid-cols-10 mb-16 md:mb-0">
+                      <div className="xl:col-span-6 text-xs text-muted-foreground/50 text-center">
+                        <p className="mt-2">
+                          &copy; {new Date().getFullYear()} Nexocial by Dimas Maulana. All Rights Reserved.
+                        </p>
+                      </div>
+                    </footer>
+                  </div>
                 </div>
               </div>
             </div>
