@@ -124,7 +124,9 @@ function PostFeed({ post, userId }: PostFeedProps) {
                     </SignInButton>
                   )}
                   <span className="text-xs text-muted-foreground">•</span>
-                  <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(post.createdAt))} ago</span>
+                  <span className="text-xs text-muted-foreground">
+                    {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+                  </span>
                 </div>
               </div>
 
