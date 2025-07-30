@@ -90,7 +90,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
             {user ? (
               <Link href={`/profile/${post.author.username}`}>
                 <UserAvatar
-                  className="size-8 sm:size-9"
+                  className="size-8 sm:size-10"
                   src={post.author.image ?? ""}
                   fallback={(post.author.username?.charAt(0).toUpperCase() ?? "").trim() || "U"}
                 />
