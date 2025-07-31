@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import DesktopNavigation from "@/components/layout/DesktopNavigation";
 import MobileNavigation from "@/components/layout/MobileNavigation";
+import FollowSuggestions from "@/components/widget/FollowSuggestions";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,7 +44,17 @@ export default function RootLayout({
                   </div>
 
                   <div className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">
-                    <main>{children}</main>
+                    <main>
+                      <section className="grid grid-cols-1 xl:grid-cols-10 gap-5 mb-3">
+                        <div className="xl:col-span-6">{children}</div>
+
+                        <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start">
+                          <div className="space-y-5">
+                            <FollowSuggestions />
+                          </div>
+                        </div>
+                      </section>
+                    </main>
 
                     <footer className="grid grid-cols-1 xl:grid-cols-10 mb-16 md:mb-0">
                       <div className="xl:col-span-6 text-xs text-muted-foreground/50 text-center">
