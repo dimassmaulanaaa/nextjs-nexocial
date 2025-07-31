@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
-import { BellIcon, HomeIcon, LogInIcon } from "lucide-react";
+import { BellIcon, HomeIcon, LogInIcon, UserIcon } from "lucide-react";
 import { toTitleCase } from "@/lib/utils";
 
 function DesktopNavigation() {
@@ -42,7 +42,14 @@ function DesktopNavigation() {
             </Link>
           </li>
         ) : null}
-
+        {user ? (
+          <li>
+            <Link href={`/profile/${user.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
+              <UserIcon className="size-8 lg:size-7" />
+              <span className="hidden lg:block">Profile</span>
+            </Link>
+          </li>
+        ) : null}
         <li className="flex justify-center gap-5 mt-auto py-5 text-lg font-semibold">
           {user ? (
             <>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
-import { BellIcon, HomeIcon, LogInIcon } from "lucide-react";
+import { BellIcon, HomeIcon, LogInIcon, UserIcon } from "lucide-react";
 import ModeToggle from "@/components/common/ModeToggle";
 
 function MobileNavigation() {
@@ -19,6 +19,12 @@ function MobileNavigation() {
           {user ? (
             <Link href="/notifications" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
               <BellIcon />
+            </Link>
+          ) : null}
+
+          {user ? (
+            <Link href={`/profile/${user.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
+              <UserIcon />
             </Link>
           ) : null}
 
