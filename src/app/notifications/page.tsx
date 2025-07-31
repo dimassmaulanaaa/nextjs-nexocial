@@ -6,7 +6,7 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import toast from "react-hot-toast";
 import { getNotifications, markNotificationsAsRead } from "@/actions/notification.action";
-import NotificationSkeleton from "@/components/common/NotificationSkeleton";
+import NotificationPageSkeleton from "@/components/common/NotificationPageSkeleton";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -42,7 +42,7 @@ function NotificationsPage() {
     fetchNotifications();
   }, []);
 
-  if (isLoading) return <NotificationSkeleton />;
+  if (isLoading) return <NotificationPageSkeleton />;
 
   return (
     <Card>

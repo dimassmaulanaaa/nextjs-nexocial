@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function NotificationSkeleton() {
+function NotificationPageSkeleton() {
   const skeletonItems = Array.from({ length: 7 }, (_, i) => i);
 
   return (
@@ -35,4 +35,4 @@ function NotificationSkeleton() {
   );
 }
 
-export default NotificationSkeleton;
+export default NotificationPageSkeleton;
