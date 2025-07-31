@@ -9,44 +9,49 @@ function MobileNavigation() {
   const { user } = useUser();
 
   return (
-    <header className="md:hidden fixed bottom-3 left-3 right-3 mx-auto border rounded-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 z-50">
+    <nav className="md:hidden fixed bottom-3 left-3 right-3 mx-auto border rounded-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 z-50">
       <div className="max-w-7xl mx-auto px-4">
-        <nav className="flex items-center justify-around h-12">
-          <Link href="/" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-            <HomeIcon />
-          </Link>
+        <ul className="flex items-center justify-around gap-5 h-12 text-lg font-semibold">
+          <li>
+            <Link href="/" className="hover:text-primary/75">
+              <HomeIcon />
+            </Link>
+          </li>
 
           {user ? (
-            <Link href="/notifications" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-              <BellIcon />
-            </Link>
+            <li>
+              <Link href="/notifications" className="hover:text-primary/75">
+                <BellIcon />
+              </Link>
+            </li>
           ) : null}
 
           {user ? (
-            <Link href={`/profile/${user.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-              <UserIcon />
-            </Link>
+            <li>
+              <Link href={`/profile/${user.username}`} className="hover:text-primary/75">
+                <UserIcon />
+              </Link>
+            </li>
           ) : null}
 
-          <ModeToggle />
-
-          {user ? (
-            <UserButton afterSignOutUrl="/" />
-          ) : (
-            <>
+          <li className="flex">
+            {user ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
               <SignInButton mode="modal" fallbackRedirectUrl="/">
-                <Link
-                  href=""
-                  className="flex gap-5 p-2 rounded-full text-lg font-semibold bg-primary text-primary-foreground shadow hover:bg-primary/90"
-                >
+                <Link href="" className="p-[0.315rem] text-primary-foreground rounded-full bg-primary hover:bg-primary/90">
                   <LogInIcon />
                 </Link>
               </SignInButton>
-            </>
-          )}
-        </nav>
+            )}
+          </li>
+
+          <li>
+            <ModeToggle />
+          </li>
+        </ul>
       </div>
-    </header>
+    </nav>
   );
 }
 
