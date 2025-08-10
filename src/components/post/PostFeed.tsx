@@ -162,7 +162,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
             </div>
 
             {/* DELETE */}
-            {userId === post.author.id && <DeleteButton onClick={handleDelete} isLoading={isLoading} />}
+            {user?.id === post.author.clerkId && <DeleteButton onClick={handleDelete} isLoading={isLoading} />}
           </div>
 
           {/* COMMENT SECTION */}
