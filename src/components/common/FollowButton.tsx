@@ -7,17 +7,25 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 
 type FollowButtonProps = {
-  userId: string;
+  targetUserId: string;
+  initialIsFollowing: boolean;
 };
 
-function FollowButton({ userId }: FollowButtonProps) {
+function FollowButton({ targetUserId, initialIsFollowing }: FollowButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
 
   const handleFollow = async () => {
     setIsLoading(true);
 
     try {
-      await toggleFollow(userId);
+      const result = await toggleFollow(targetUserId);
+
+      if (result.success) {
+        setIsFollowing((prev) => !prev);
+      } else {
+        toast.error(result.error || "Failed to follow");
+      }
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
@@ -28,9 +36,16 @@ function FollowButton({ userId }: FollowButtonProps) {
   };
 
   return (
-    <Button size={"sm"} onClick={handleFollow} disabled={isLoading} className="px-5">
-      {isLoading ? <LoadingSpinner /> : "Follow"}
+    <Button
+      size={"sm"}
+      className="px-5"
+      onClick={handleFollow}
+      disabled={isLoading}
+      variant={isFollowing ? "outline" : "default"}
+    >
+      {isLoading ? <LoadingSpinner /> : isFollowing ? "Unfollow" : "Follow"}
     </Button>
   );
 }
+
 export default FollowButton;

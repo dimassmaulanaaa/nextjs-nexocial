@@ -33,7 +33,7 @@ async function FollowSuggestions() {
                   <p className="text-xs text-muted-foreground">{user.name}</p>
                 </div>
               </div>
-              <FollowButton userId={user.id} />
+              <FollowButton targetUserId={user.id} initialIsFollowing={false} />
             </div>
           ))}
         </div>
