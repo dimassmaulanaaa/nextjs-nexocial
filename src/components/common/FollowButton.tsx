@@ -19,11 +19,9 @@ function FollowButton({ userId }: FollowButtonProps) {
     try {
       await toggleFollow(userId);
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error("Something went wrong. Please check your connection and try again");
-      }
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
+      );
     } finally {
       setIsLoading(false);
     }
