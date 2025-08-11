@@ -22,10 +22,10 @@ function DesktopNavigation() {
   return (
     <nav className="hidden md:flex flex-col items-center h-screen sticky top-0 border-r py-4 lg:px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
       <ul className="flex flex-col h-full lg:w-full gap-5">
-        <li className="pb-3 text-4xl font-extrabold lg:text-3xl lg:font-bold tracking-wider">
+        <li className="pb-3 tracking-wider">
           <Link href="/">
-            <span className="hidden lg:block">Nexocial</span>
-            <span className="block lg:hidden">N</span>
+            <span className="font-extrabold text-4xl">N</span>
+            <span className="hidden lg:inline font-semibold text-3xl">exocial</span>
           </Link>
         </li>
 
@@ -36,28 +36,24 @@ function DesktopNavigation() {
           </Link>
         </li>
 
-        {user ? (
-          <li>
-            <Link href="/notifications" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-              <BellIcon className="size-8 lg:size-7" />
-              <span className="hidden lg:block">Notifications</span>
-            </Link>
-          </li>
-        ) : null}
+        <li>
+          <Link href="/notifications" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
+            <BellIcon className="size-8 lg:size-7" />
+            <span className="hidden lg:block">Notifications</span>
+          </Link>
+        </li>
 
-        {user ? (
-          <li>
-            <Link href={`/profile/${user.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-              <UserIcon className="size-8 lg:size-7" />
-              <span className="hidden lg:block">Profile</span>
-            </Link>
-          </li>
-        ) : null}
+        <li>
+          <Link href={`/${user?.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
+            <UserIcon className="size-8 lg:size-7" />
+            <span className="hidden lg:block">Profile</span>
+          </Link>
+        </li>
 
         <li className="flex justify-center gap-5 mt-auto py-5 text-lg font-semibold">
           {user ? (
             <>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
               <span className="hidden lg:block">{formattedName}</span>
             </>
           ) : (
@@ -68,7 +64,7 @@ function DesktopNavigation() {
                   className="flex gap-5 p-2 lg:py-2 lg:px-5 rounded-full text-lg font-semibold bg-primary text-primary-foreground shadow hover:bg-primary/90"
                 >
                   <LogInIcon className="size-8 lg:size-7" />
-                  <span className="hidden lg:block">Sign In</span>
+                  <span className="hidden lg:block">Sign in</span>
                 </Link>
               </SignInButton>
             </>

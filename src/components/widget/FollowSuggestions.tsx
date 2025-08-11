@@ -19,7 +19,7 @@ async function FollowSuggestions() {
           {users.map((user) => (
             <div key={user.id} className="flex items-center justify-between ">
               <div className="flex items-center gap-4">
-                <Link href={`/profile/${user.username}`}>
+                <Link href={`/${user.username}`}>
                   <UserAvatar
                     className="size-10"
                     src={user.image || ""}
@@ -27,7 +27,7 @@ async function FollowSuggestions() {
                   />
                 </Link>
                 <div className="space-y-1">
-                  <Link href={`/profile/${user.username}`} className="text-sm font-medium cursor-pointer">
+                  <Link href={`/${user.username}`} className="text-sm font-medium cursor-pointer">
                     {user.username}
                   </Link>
                   <p className="text-xs text-muted-foreground">{user.name}</p>

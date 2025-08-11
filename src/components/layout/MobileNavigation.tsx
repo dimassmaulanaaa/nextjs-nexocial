@@ -18,25 +18,21 @@ function MobileNavigation() {
             </Link>
           </li>
 
-          {user ? (
-            <li>
-              <Link href="/notifications" className="hover:text-primary/75">
-                <BellIcon />
-              </Link>
-            </li>
-          ) : null}
+          <li>
+            <Link href="/notifications" className="hover:text-primary/75">
+              <BellIcon />
+            </Link>
+          </li>
 
-          {user ? (
-            <li>
-              <Link href={`/profile/${user.username}`} className="hover:text-primary/75">
-                <UserIcon />
-              </Link>
-            </li>
-          ) : null}
+          <li>
+            <Link href={`/${user?.username}`} className="hover:text-primary/75">
+              <UserIcon />
+            </Link>
+          </li>
 
           <li className="flex">
             {user ? (
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             ) : (
               <SignInButton mode="modal" fallbackRedirectUrl="/">
                 <Link href="" className="p-[0.315rem] text-primary-foreground rounded-full bg-primary hover:bg-primary/90">

@@ -88,7 +88,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
           {/* HEADER & CONTENT */}
           <div className="flex space-x-3 sm:space-x-4">
             {user ? (
-              <Link href={`/profile/${post.author.username}`}>
+              <Link href={`/${post.author.username}`}>
                 <UserAvatar
                   className="size-8 sm:size-10"
                   src={post.author.image ?? ""}
@@ -113,7 +113,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
               <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 truncate">
                 <div className="flex items-center space-x-2">
                   {user ? (
-                    <Link href={`/profile/${post.author.username}`} className="font-semibold truncate">
+                    <Link href={`/${post.author.username}`} className="font-semibold truncate">
                       {post.author.username}
                     </Link>
                   ) : (

@@ -15,7 +15,7 @@ type CommentListProps = {
 function CommentList({ comment }: CommentListProps) {
   return (
     <div className="flex space-x-3">
-      <Link href={`/profile/${comment.author.username}`}>
+      <Link href={`/${comment.author.username}`}>
         <UserAvatar
           className="size-7 flex-shrink-0"
           src={comment.author.image ?? ""}
@@ -24,7 +24,7 @@ function CommentList({ comment }: CommentListProps) {
       </Link>
       <div className="flex-1 min-w-0">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <Link href={`/profile/${comment.author.username}`} className="font-medium text-sm">
+          <Link href={`/${comment.author.username}`} className="font-medium text-sm">
             {comment.author.username}
           </Link>
           <span className="text-xs text-muted-foreground">•</span>
