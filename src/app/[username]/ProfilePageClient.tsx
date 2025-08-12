@@ -17,13 +17,14 @@ import ModeToggle from "@/components/common/ModeToggle";
 type User = Awaited<ReturnType<typeof getUserProfile>>;
 type Posts = Awaited<ReturnType<typeof getUserPosts>>;
 type ProfilePageClientProps = {
+  currentUserId: string;
   user: NonNullable<User>;
   posts: Posts;
   likedPosts: Posts;
   isFollowing: boolean;
 };
 
-function ProfilePageClient({ user, posts, likedPosts, isFollowing }: ProfilePageClientProps) {
+function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing }: ProfilePageClientProps) {
   const { user: currentUser } = useUser();
   const isOwnProfile = useMemo(() => currentUser?.username === user.username, [currentUser?.username, user.username]);
   const formattedDate = useMemo(() => format(new Date(user.createdAt), "MMMM yyyy"), [user.createdAt]);
@@ -136,12 +137,12 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing }: ProfilePage
 
           {/* POSTS */}
           <TabsContent value="posts" className="mt-5">
-            <ProfilePostsList posts={posts} userId={user.id} type="posts" />
+            <ProfilePostsList posts={posts} userId={currentUserId} type="posts" />
           </TabsContent>
 
           {/* LIKED POSTS */}
           <TabsContent value="likes" className="mt-5">
-            <ProfilePostsList posts={likedPosts} userId={user.id} type="likes" />
+            <ProfilePostsList posts={likedPosts} userId={currentUserId} type="likes" />
           </TabsContent>
         </Tabs>
       </div>

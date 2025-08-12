@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getUserProfile } from "@/actions/user.action";
+import { getCurrentUserId, getUserProfile } from "@/actions/user.action";
 import { getUserLikedPosts, getUserPosts } from "@/actions/post.action";
 import { isFollowing } from "@/actions/follows.action";
 import ProfilePageClient from "@/app/[username]/ProfilePageClient";
@@ -33,8 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 async function ProfilePageServer({ params }: Props) {
   try {
-    const username = decodeURIComponent(params.username);
+    const currentUserId = await getCurrentUserId();
 
+    if (!currentUserId) return;
+
+    const username = decodeURIComponent(params.username);
     const user = await getUserProfile(username);
 
     if (!user) {
@@ -47,7 +50,15 @@ async function ProfilePageServer({ params }: Props) {
       isFollowing(user.id).catch(() => false),
     ]);
 
-    return <ProfilePageClient user={user} posts={posts} likedPosts={likedPosts} isFollowing={isCurrentUserFollowing} />;
+    return (
+      <ProfilePageClient
+        currentUserId={currentUserId}
+        user={user}
+        posts={posts}
+        likedPosts={likedPosts}
+        isFollowing={isCurrentUserFollowing}
+      />
+    );
   } catch (error) {
     console.error("Error in ProfilePage:", error);
     notFound();
