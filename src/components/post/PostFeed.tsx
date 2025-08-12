@@ -131,7 +131,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
               </div>
 
               {/* TEXT CONTENT */}
-              <p className="mt-2 text-sm text-foreground break-words">{post.content}</p>
+              <p className="mt-2 text-sm text-foreground break-words whitespace-pre-wrap">{post.content}</p>
             </div>
           </div>
 
