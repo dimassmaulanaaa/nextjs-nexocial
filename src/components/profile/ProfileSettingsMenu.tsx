@@ -69,11 +69,11 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
           <DropdownMenuItem className="justify-center" onClick={() => openUserProfile()}>
             Account information
           </DropdownMenuItem>
-          <DropdownMenuItem className="justify-center" asChild>
-            <SignOutButton>
+          <SignOutButton>
+            <DropdownMenuItem className="justify-center" asChild>
               <div className="w-full">Sign out</div>
-            </SignOutButton>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </SignOutButton>
         </DropdownMenuContent>
       </DropdownMenu>
 

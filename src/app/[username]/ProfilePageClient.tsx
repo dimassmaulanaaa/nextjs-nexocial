@@ -12,6 +12,7 @@ import ProfilePostsList from "@/components/profile/ProfilePostsList";
 import ProfileSettingsMenu from "@/components/profile/ProfileSettingsMenu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ModeToggle from "@/components/common/ModeToggle";
 
 type User = Awaited<ReturnType<typeof getUserProfile>>;
 type Posts = Awaited<ReturnType<typeof getUserPosts>>;
@@ -53,7 +54,10 @@ function ProfilePageClient({ user, posts, likedPosts, isFollowing }: ProfilePage
                 <h1 className="text-xl font-medium truncate">{user.username}</h1>
 
                 {isOwnProfile ? (
-                  <ProfileSettingsMenu user={user} />
+                  <span>
+                    <ProfileSettingsMenu user={user} />
+                    <ModeToggle />
+                  </span>
                 ) : (
                   <FollowButton targetUserId={user.id} initialIsFollowing={isFollowing} />
                 )}
