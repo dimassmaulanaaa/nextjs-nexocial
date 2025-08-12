@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import { BellIcon, HomeIcon, LogInIcon, UserIcon } from "lucide-react";
-import ModeToggle from "@/components/common/ModeToggle";
 
 function MobileNavigation() {
   const { user } = useUser();
 
   return (
-    <nav className="md:hidden fixed bottom-3 left-3 right-3 mx-auto border rounded-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 z-50">
+    <nav className="md:hidden fixed bottom-3 left-3 right-3 border rounded-full backdrop-blur supports-[backdrop-filter]:bg-foreground/10 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <ul className="flex items-center justify-around gap-5 h-12 text-lg font-semibold">
           <li>
@@ -40,10 +39,6 @@ function MobileNavigation() {
                 </Link>
               </SignInButton>
             )}
-          </li>
-
-          <li>
-            <ModeToggle />
           </li>
         </ul>
       </div>
