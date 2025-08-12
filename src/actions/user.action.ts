@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 
@@ -23,9 +24,9 @@ export async function syncUser() {
       create: {
         clerkId: userId,
         username: user.username ?? user.emailAddresses[0].emailAddress.split("@")[0],
-        email: user.emailAddresses[0].emailAddress,
         name: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
         image: user.imageUrl,
+        email: user.emailAddresses[0].emailAddress,
       },
     });
 
@@ -100,5 +101,64 @@ export async function getSuggestedUsers() {
   } catch (error) {
     console.error("ERROR in getSuggestedUsers:", error);
     return [];
+  }
+}
+
+export async function getUserProfile(username: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+      select: {
+        id: true,
+        username: true,
+        name: true,
+        bio: true,
+        image: true,
+        location: true,
+        website: true,
+        createdAt: true,
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+            posts: true,
+          },
+        },
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error in getUserProfile:", error);
+    throw new Error("Failed to fetch profile");
+  }
+}
+
+export async function updateUserProfile(formData: FormData) {
+  try {
+    const { userId: clerkId } = await auth();
+
+    if (!clerkId) throw new Error("Unauthorized");
+
+    const bio = formData.get("bio") as string;
+    const location = formData.get("location") as string;
+    const website = formData.get("website") as string;
+
+    const user = await prisma.user.update({
+      where: { clerkId },
+      data: {
+        bio,
+        location,
+        website,
+      },
+    });
+
+    revalidatePath("/profile");
+    return { success: true, user };
+  } catch (error) {
+    console.error("Error in updateUserProfile:", error);
+    return { success: false, error: "Failed to update profile" };
   }
 }

@@ -56,3 +56,25 @@ export async function toggleFollow(targetUserId: string) {
     return { success: false, error: "Error toggling follow" };
   }
 }
+
+export async function isFollowing(targetUserId: string) {
+  try {
+    const userId = await getCurrentUserId();
+
+    if (!userId) return false;
+
+    const follow = await prisma.follows.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: userId,
+          followingId: targetUserId,
+        },
+      },
+    });
+
+    return !!follow;
+  } catch (error) {
+    console.error("Error in isFollowing:", error);
+    return false;
+  }
+}
