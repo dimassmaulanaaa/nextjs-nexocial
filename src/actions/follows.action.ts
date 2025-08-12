@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusher";
 import { getCurrentUserId } from "@/actions/user.action";
 
 export async function toggleFollow(targetUserId: string) {
@@ -31,7 +32,7 @@ export async function toggleFollow(targetUserId: string) {
         },
       });
     } else {
-      await prisma.$transaction([
+      const follow = await prisma.$transaction([
         prisma.follows.create({
           data: {
             followerId: userId,
@@ -47,9 +48,18 @@ export async function toggleFollow(targetUserId: string) {
           },
         }),
       ]);
+
+      if (follow && targetUserId !== userId) {
+        try {
+          await pusherServer.trigger(`${targetUserId}-notification`, "notification:new", {});
+        } catch (pusherError) {
+          console.error("Failed to send real-time notification:", pusherError);
+        }
+      }
     }
 
     revalidatePath("/");
+    revalidatePath(`/${targetUserId}`);
     return { success: true };
   } catch (error) {
     console.error("ERROR in toggleFollow:", error);

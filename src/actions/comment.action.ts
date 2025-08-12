@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
+import { pusherServer } from "@/lib/pusher";
 import { getCurrentUserId } from "@/actions/user.action";
 
 export async function createComment(postId: string, content: string) {
@@ -46,6 +47,14 @@ export async function createComment(postId: string, content: string) {
 
       return [newComment];
     });
+
+    if (comment && post.authorId !== userId) {
+      try {
+        await pusherServer.trigger(`${post.authorId}-notification`, "notification:new", {});
+      } catch (pusherError) {
+        console.error("Failed to send real-time notification:", pusherError);
+      }
+    }
 
     revalidatePath(`/`);
     return { success: true, comment };

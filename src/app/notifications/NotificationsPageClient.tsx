@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Pusher from "pusher-js";
 import { formatDistanceToNow } from "date-fns";
 import { Bell } from "lucide-react";
 import { getNotifications } from "@/actions/notification.action";
@@ -12,15 +13,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Notifications = Awaited<ReturnType<typeof getNotifications>>;
-
 type NotificationsPageClientProps = {
   initialNotifications: Notifications;
   initialUnreadCount: number;
+  currentUserId: string | null;
 };
 
-function NotificationsPageClient({ initialNotifications, initialUnreadCount }: NotificationsPageClientProps) {
-  const [notifications] = useState(initialNotifications);
-  const [unreadCount] = useState(initialUnreadCount);
+function NotificationsPageClient({ initialNotifications, initialUnreadCount, currentUserId }: NotificationsPageClientProps) {
+  const [notifications, setNotifications] = useState(initialNotifications);
+  const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
+
+  useEffect(() => {
+    if (!currentUserId) return;
+
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    });
+
+    const channel = pusher.subscribe(`${currentUserId}-notification`);
+
+    channel.bind("notification:new", async () => {
+      try {
+        const updatedNotifications = await getNotifications();
+        setNotifications(updatedNotifications);
+
+        const newUnreadCount = updatedNotifications.filter((n) => !n.read).length;
+        setUnreadCount(newUnreadCount);
+      } catch (error) {
+        console.error("Error refreshing notifications:", error);
+      }
+    });
+
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+
+    return () => {
+      channel.unbind("notification:new");
+      pusher.unsubscribe(`${currentUserId}-notification`);
+      pusher.disconnect();
+    };
+  }, [currentUserId]);
 
   return (
     <Card>
@@ -31,7 +64,7 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount }: N
             <Badge variant="secondary" className="text-xs">
               {unreadCount} unread
             </Badge>
-          )}{" "}
+          )}
         </div>
       </CardHeader>
       <CardContent className="p-0">
@@ -46,7 +79,9 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount }: N
             notifications.map((notification) => (
               <div
                 key={notification.id}
-                className={`flex items-start gap-4 p-6 border-b ${!notification.read ? "bg-muted/50" : ""}`}
+                className={`flex items-start gap-4 p-6 border-b transition-colors duration-200 ${
+                  !notification.read ? "bg-muted/50" : ""
+                }`}
               >
                 <Link href={`/profile/${notification.creator.username}`}>
                   <UserAvatar
@@ -55,7 +90,7 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount }: N
                     fallback={notification.creator.username.charAt(0)}
                   />
                 </Link>
-                <div className={`flex-1 space-y-3 ${notification.type === "FOLLOW" ? "pt-1 md:pt-2" : ""} `}>
+                <div className={`flex-1 space-y-3 ${notification.type === "FOLLOW" ? "pt-1 md:pt-2" : ""}`}>
                   {/* NOTIFICATION HEADER */}
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0">
                     {/* USERNAME */}
@@ -68,7 +103,7 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount }: N
                         ? "started following you"
                         : notification.type === "LIKE"
                         ? "liked your post"
-                        : `commented: ${notification.comment?.content}`}{" "}
+                        : `commented: ${notification.comment?.content}`}
                     </span>
                     {/* TIME */}
                     <span className="text-xs text-muted-foreground">•</span>
@@ -89,6 +124,8 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount }: N
                           src={notification.post.image}
                           alt="Post content"
                           className="rounded-md w-full max-w-[200px] h-auto object-cover"
+                          width={200}
+                          height={100}
                         />
                       )}
                     </div>

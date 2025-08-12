@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getNotifications, markNotificationsAsRead } from "@/actions/notification.action";
+import { getCurrentUserId } from "@/actions/user.action";
 import NotificationsPageClient from "@/app/notifications/NotificationsPageClient";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 
 export default async function NotificationsPageServer() {
   const notifications = await getNotifications();
+  const userId = await getCurrentUserId();
 
   const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
 
@@ -18,5 +20,7 @@ export default async function NotificationsPageServer() {
 
   const unreadCount = unreadIds.length;
 
-  return <NotificationsPageClient initialNotifications={notifications} initialUnreadCount={unreadCount} />;
+  return (
+    <NotificationsPageClient initialNotifications={notifications} initialUnreadCount={unreadCount} currentUserId={userId} />
+  );
 }
