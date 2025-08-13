@@ -155,7 +155,7 @@ export async function updateUserProfile(formData: FormData) {
       },
     });
 
-    revalidatePath("/profile");
+    revalidatePath(`/${user.username}`);
     return { success: true, user };
   } catch (error) {
     console.error("Error in updateUserProfile:", error);
