@@ -3,16 +3,17 @@
 import { useMemo } from "react";
 import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
-import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
+import { CalendarIcon, LinkIcon, MapPinIcon, LoaderIcon } from "lucide-react";
 import { getUserProfile } from "@/actions/user.action";
 import { getUserPosts } from "@/actions/post.action";
+import { useClerkSync } from "@/hooks/useClerkSync";
 import FollowButton from "@/components/common/FollowButton";
+import ModeToggle from "@/components/common/ModeToggle";
 import UserAvatar from "@/components/common/UserAvatar";
 import ProfilePostsList from "@/components/profile/ProfilePostsList";
 import ProfileSettingsMenu from "@/components/profile/ProfileSettingsMenu";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ModeToggle from "@/components/common/ModeToggle";
 
 type User = Awaited<ReturnType<typeof getUserProfile>>;
 type Posts = Awaited<ReturnType<typeof getUserPosts>>;
@@ -26,6 +27,9 @@ type ProfilePageClientProps = {
 
 function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing }: ProfilePageClientProps) {
   const { user: currentUser } = useUser();
+
+  const { isRedirecting } = useClerkSync(user.username);
+
   const isOwnProfile = useMemo(() => currentUser?.username === user.username, [currentUser?.username, user.username]);
   const formattedDate = useMemo(() => format(new Date(user.createdAt), "MMMM yyyy"), [user.createdAt]);
   const stats = useMemo(
@@ -36,6 +40,19 @@ function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing
     }),
     [user._count]
   );
+
+  if (isRedirecting) {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center justify-center py-20">
+          <div className="flex flex-col items-center gap-4">
+            <LoaderIcon className="h-8 w-8 animate-spin" />
+            <p className="text-muted-foreground">Updating profile...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -129,7 +146,7 @@ function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing
             <TabsTrigger
               value="likes"
               className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
-               data-[state=active]:bg-transparent data-[state=active]:shadow-none px-7 text-base font-semibold"
+              data-[state=active]:bg-transparent data-[state=active]:shadow-none px-7 text-base font-semibold"
             >
               Likes
             </TabsTrigger>
