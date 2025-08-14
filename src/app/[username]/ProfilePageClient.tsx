@@ -27,7 +27,6 @@ type ProfilePageClientProps = {
 
 function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing }: ProfilePageClientProps) {
   const { user: currentUser } = useUser();
-
   const { isRedirecting } = useClerkSync(user.username);
 
   const isOwnProfile = useMemo(() => currentUser?.username === user.username, [currentUser?.username, user.username]);
@@ -96,9 +95,9 @@ function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing
 
               {/* PROFILE INFO */}
               <div className="w-full text-sm space-y-2">
-                <p className="font-semibold">{user.name || user.username}</p>
+                <p className="font-semibold break-words">{user.name}</p>
 
-                {user.bio && <p className="break-words">{user.bio}</p>}
+                <p className="break-words">{user.bio}</p>
               </div>
 
               {/* ADDITIONAL INFO */}
