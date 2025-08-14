@@ -21,7 +21,7 @@ export async function createPost(content: string, image: string) {
     revalidatePath("/");
     return { success: true, post };
   } catch (error) {
-    console.error("ERROR in createPost:", error);
+    console.error("Error in createPost:", error);
     return { success: false, error: "An unexpected error occurred. Please try again" };
   }
 }
@@ -71,7 +71,7 @@ export async function getPosts() {
 
     return posts;
   } catch (error) {
-    console.error("ERROR in getPosts:", error);
+    console.error("Error in getPosts:", error);
     throw new Error("Failed to fetch posts");
   }
 }
@@ -132,56 +132,39 @@ export async function getUserPosts(userId: string) {
 
 export async function getUserLikedPosts(userId: string) {
   try {
-    const likedPosts = await prisma.post.findMany({
+    const likes = await prisma.like.findMany({
       where: {
-        likes: {
-          some: {
-            userId,
-          },
-        },
-      },
-      include: {
-        author: {
-          select: {
-            id: true,
-            clerkId: true,
-            username: true,
-            image: true,
-          },
-        },
-        comments: {
-          include: {
-            author: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-                image: true,
-              },
-            },
-          },
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-        likes: {
-          select: {
-            userId: true,
-          },
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          },
-        },
+        userId: userId,
       },
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        post: {
+          include: {
+            author: {
+              select: { id: true, clerkId: true, username: true, image: true },
+            },
+            comments: {
+              include: {
+                author: {
+                  select: { id: true, name: true, username: true, image: true },
+                },
+              },
+              orderBy: { createdAt: "asc" },
+            },
+            likes: {
+              select: { userId: true },
+            },
+            _count: {
+              select: { likes: true, comments: true },
+            },
+          },
+        },
+      },
     });
 
-    return likedPosts;
+    return likes.map((like) => like.post);
   } catch (error) {
     console.error("Error in getUserLikedPosts:", error);
     throw new Error("Failed to fetch user liked posts");
@@ -216,7 +199,7 @@ export async function deletePost(postId: string) {
     revalidatePath("/");
     return { success: true };
   } catch (error) {
-    console.error("ERROR in deletePost:", error);
+    console.error("Error in deletePost:", error);
     return { success: false, error: "Failed to delete post" };
   }
 }
