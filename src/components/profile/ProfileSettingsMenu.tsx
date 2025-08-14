@@ -105,7 +105,6 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
                 value={editForm.location}
                 onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
                 placeholder="Where are you based?"
-                maxLength={50}
               />
             </div>
 
@@ -117,7 +116,6 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
                 value={editForm.website}
                 onChange={(e) => setEditForm({ ...editForm, website: e.target.value })}
                 placeholder="Your personal website"
-                maxLength={100}
               />
             </div>
           </div>
