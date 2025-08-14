@@ -59,7 +59,7 @@ export async function createComment(postId: string, content: string) {
     revalidatePath(`/`);
     return { success: true, comment };
   } catch (error) {
-    console.error("ERROR in createComment:", error);
+    console.error("Error in createComment:", error);
     return { success: false, error: "Failed to create comment" };
   }
 }

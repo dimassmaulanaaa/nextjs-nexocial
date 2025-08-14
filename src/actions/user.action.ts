@@ -32,7 +32,7 @@ export async function syncUser() {
 
     return dbUser;
   } catch (error) {
-    console.error("ERROR in syncUser:", error);
+    console.error("Error in syncUser:", error);
     throw new Error("Failed to sync user with the database");
   }
 }
@@ -99,7 +99,7 @@ export async function getSuggestedUsers() {
 
     return suggestedUsers;
   } catch (error) {
-    console.error("ERROR in getSuggestedUsers:", error);
+    console.error("Error in getSuggestedUsers:", error);
     return [];
   }
 }
