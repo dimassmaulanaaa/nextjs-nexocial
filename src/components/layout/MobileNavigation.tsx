@@ -1,47 +1,56 @@
 "use client";
 
 import Link from "next/link";
-import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
-import { BellIcon, HomeIcon, LogInIcon, UserIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { SignInButton, useUser } from "@clerk/nextjs";
+import { BellIcon, HomeIcon, LogInIcon } from "lucide-react";
+import UserAvatar from "@/components/common/UserAvatar";
 
 function MobileNavigation() {
   const { user } = useUser();
+  const pathname = usePathname();
+  const navLinks = [
+    { href: "/", icon: HomeIcon, auth: false },
+    { href: "/notifications", icon: BellIcon, auth: false },
+    { href: `/${user?.username}`, icon: UserAvatar, auth: true },
+  ];
 
   return (
-    <nav className="md:hidden fixed bottom-3 left-3 right-3 border rounded-full backdrop-blur supports-[backdrop-filter]:bg-foreground/10 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <ul className="flex items-center justify-around gap-5 h-12 text-lg font-semibold">
-          <li>
-            <Link href="/" className="hover:text-primary/75">
-              <HomeIcon />
-            </Link>
-          </li>
+    <nav className="md:hidden fixed bottom-3 left-3 right-3 rounded-full backdrop-blur supports-[backdrop-filter]:bg-foreground/10 z-50">
+      <ul className="flex items-center justify-around gap-5 h-12">
+        {navLinks.map((link) => {
+          if (!link.auth || user) {
+            const isActive = pathname === link.href;
+            const Icon = link.icon;
 
-          <li>
-            <Link href="/notifications" className="hover:text-primary/75">
-              <BellIcon />
-            </Link>
-          </li>
-
-          <li>
-            <Link href={`/${user?.username}`} className="hover:text-primary/75">
-              <UserIcon />
-            </Link>
-          </li>
-
-          <li className="flex">
-            {user ? (
-              <UserButton />
-            ) : (
-              <SignInButton mode="modal" fallbackRedirectUrl="/">
-                <Link href="" className="p-[0.315rem] text-primary-foreground rounded-full bg-primary hover:bg-primary/90">
-                  <LogInIcon />
+            return (
+              <li key={link.href}>
+                <Link href={link.href} className={`hover:text-primary/85 items-center`}>
+                  {link.icon === UserAvatar ? (
+                    <UserAvatar
+                      className={`${isActive ? "size-8" : "size-7"}`}
+                      src={user?.imageUrl}
+                      fallback={user?.username?.charAt(0).toUpperCase()}
+                    />
+                  ) : (
+                    <Icon className={`${isActive ? "size-7" : "size-6"}`} />
+                  )}
                 </Link>
-              </SignInButton>
-            )}
+              </li>
+            );
+          }
+          return null;
+        })}
+        {user ? null : (
+          <li>
+            <SignInButton mode="modal" fallbackRedirectUrl="/">
+              <Link href="/" className="hover:text-primary/85">
+                <LogInIcon />
+              </Link>
+            </SignInButton>
           </li>
-        </ul>
-      </div>
+        )}
+      </ul>
     </nav>
   );
 }

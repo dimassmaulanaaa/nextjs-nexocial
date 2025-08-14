@@ -1,75 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
-import { BellIcon, HomeIcon, LogInIcon, UserIcon } from "lucide-react";
-import { toTitleCase } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { SignInButton, useUser } from "@clerk/nextjs";
+import { BellIcon, HomeIcon, LogInIcon } from "lucide-react";
+import UserAvatar from "@/components/common/UserAvatar";
 
 function DesktopNavigation() {
   const { user } = useUser();
-  let formattedName = "You";
-
-  if (user?.fullName) {
-    const names = user.fullName.split(" ");
-    const firstName = toTitleCase(names[0]);
-    const initials = names
-      .slice(1)
-      .map((name) => name.charAt(0).toUpperCase())
-      .join(" ");
-    formattedName = initials ? `${firstName} ${initials}` : firstName;
-  }
+  const pathname = usePathname();
+  const navLinks = [
+    { href: "/", label: "Home", icon: HomeIcon, auth: false },
+    { href: "/notifications", label: "Notifications", icon: BellIcon, auth: false },
+    { href: `/${user?.username}`, label: "Profile", icon: UserAvatar, auth: true },
+  ];
 
   return (
-    <nav className="hidden md:flex flex-col items-center h-screen sticky top-0 border-r py-4 lg:px-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
-      <ul className="flex flex-col h-full lg:w-full gap-5">
+    <nav className="hidden md:flex flex-col h-screen sticky top-0 border-r py-4">
+      <ul className="flex flex-col h-full gap-5 lg:w-full">
         <li className="pb-3 tracking-wider">
           <Link href="/">
             <span className="font-extrabold text-4xl">N</span>
             <span className="hidden lg:inline font-semibold text-3xl">exocial</span>
           </Link>
         </li>
+        {navLinks.map((link) => {
+          if (!link.auth || user) {
+            const isActive = pathname === link.href;
+            const Icon = link.icon;
 
-        <li>
-          <Link href="/" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-            <HomeIcon className="size-8 lg:size-7" />
-            <span className="hidden lg:block">Home</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link href="/notifications" className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-            <BellIcon className="size-8 lg:size-7" />
-            <span className="hidden lg:block">Notifications</span>
-          </Link>
-        </li>
-
-        <li>
-          <Link href={`/${user?.username}`} className="flex gap-5 text-lg font-semibold hover:text-primary/75">
-            <UserIcon className="size-8 lg:size-7" />
-            <span className="hidden lg:block">Profile</span>
-          </Link>
-        </li>
-
-        <li className="flex justify-center gap-5 mt-auto py-5 text-lg font-semibold">
-          {user ? (
-            <>
-              <UserButton />
-              <span className="hidden lg:block">{formattedName}</span>
-            </>
-          ) : (
-            <>
-              <SignInButton mode="modal" fallbackRedirectUrl="/">
+            return (
+              <li key={link.href}>
                 <Link
-                  href=""
-                  className="flex gap-5 p-2 lg:py-2 lg:px-5 rounded-full text-lg font-semibold bg-primary text-primary-foreground shadow hover:bg-primary/90"
+                  href={link.href}
+                  className={`flex gap-5 text-lg font-semibold hover:text-primary/85 hover:border-primary/85 ${
+                    isActive ? "font-bold border-primary border-r-[3px]" : ""
+                  }`}
                 >
-                  <LogInIcon className="size-8 lg:size-7" />
-                  <span className="hidden lg:block">Sign in</span>
+                  {link.label === "Profile" ? (
+                    <UserAvatar className="size-7" src={user?.imageUrl} fallback={user?.username?.charAt(0).toUpperCase()} />
+                  ) : (
+                    <Icon className="size-7" />
+                  )}
+                  <span className="hidden lg:block">{link.label}</span>
                 </Link>
-              </SignInButton>
-            </>
-          )}
-        </li>
+              </li>
+            );
+          }
+          return null;
+        })}
+        {user ? null : (
+          <li>
+            <SignInButton mode="modal" fallbackRedirectUrl="/">
+              <Link href="/" className="flex gap-5 text-lg font-semibold hover:text-primary/85">
+                <LogInIcon className="size-8 lg:size-7" /> <span className="hidden lg:block">Sign in</span>
+              </Link>
+            </SignInButton>
+          </li>
+        )}
       </ul>
     </nav>
   );
