@@ -17,7 +17,7 @@ function DesktopNavigation() {
 
   return (
     <nav className="hidden md:flex flex-col h-screen sticky top-0 border-r py-4">
-      <ul className="flex flex-col h-full gap-5 lg:w-full">
+      <ul className="flex flex-col h-full gap-9 pl-4 lg:w-full">
         <li className="pb-3 tracking-wider">
           <Link href="/">
             <span className="font-extrabold text-4xl">N</span>
