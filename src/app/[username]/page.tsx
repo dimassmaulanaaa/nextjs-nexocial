@@ -32,37 +32,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function ProfilePageServer({ params }: Props) {
-  try {
-    const currentUserId = await getCurrentUserId();
+  const currentUserId = await getCurrentUserId();
 
-    if (!currentUserId) return;
+  if (!currentUserId) return;
 
-    const username = decodeURIComponent(params.username);
-    const user = await getUserProfile(username);
+  const username = decodeURIComponent(params.username);
+  const user = await getUserProfile(username);
 
-    if (!user) {
-      notFound();
-    }
-
-    const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
-      getUserPosts(user.id).catch(() => []),
-      getUserLikedPosts(user.id).catch(() => []),
-      isFollowing(user.id).catch(() => false),
-    ]);
-
-    return (
-      <ProfilePageClient
-        currentUserId={currentUserId}
-        user={user}
-        posts={posts}
-        likedPosts={likedPosts}
-        isFollowing={isCurrentUserFollowing}
-      />
-    );
-  } catch (error) {
-    console.error("Error in ProfilePage:", error);
+  if (!user) {
     notFound();
   }
+
+  const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
+    getUserPosts(user.id).catch(() => []),
+    getUserLikedPosts(user.id).catch(() => []),
+    isFollowing(user.id).catch(() => false),
+  ]);
+
+  return (
+    <ProfilePageClient
+      currentUserId={currentUserId}
+      user={user}
+      posts={posts}
+      likedPosts={likedPosts}
+      isFollowing={isCurrentUserFollowing}
+    />
+  );
 }
 
 export default ProfilePageServer;
