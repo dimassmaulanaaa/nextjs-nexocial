@@ -27,7 +27,6 @@ function CommentForm({ postId }: CommentFormProps) {
 
       if (result.success) {
         setNewComment("");
-        toast.success("Comment posted!");
       } else {
         toast.error(result.error || "Failed to post comment.");
       }
