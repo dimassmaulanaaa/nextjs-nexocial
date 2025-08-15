@@ -4,13 +4,13 @@ import { getCurrentUserId } from "@/actions/user.action";
 import NotificationsPageClient from "@/app/notifications/NotificationsPageClient";
 
 export const metadata: Metadata = {
-  title: "Nexocial",
+  title: "Notifications | Nexocial",
   description: "View your latest notifications and updates",
 };
 
 export default async function NotificationsPageServer() {
-  const notifications = await getNotifications();
   const userId = await getCurrentUserId();
+  const notifications = await getNotifications();
 
   const unreadIds = notifications.filter((n) => !n.read).map((n) => n.id);
 

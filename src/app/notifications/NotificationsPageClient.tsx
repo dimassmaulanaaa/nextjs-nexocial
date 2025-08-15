@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Pusher from "pusher-js";
 import { formatDistanceToNow } from "date-fns";
 import { Bell } from "lucide-react";
 import { getNotifications } from "@/actions/notification.action";
@@ -11,6 +10,7 @@ import UserAvatar from "@/components/common/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { usePusher } from "@/hooks/usePusher";
 
 type Notifications = Awaited<ReturnType<typeof getNotifications>>;
 type NotificationsPageClientProps = {
@@ -22,17 +22,14 @@ type NotificationsPageClientProps = {
 function NotificationsPageClient({ initialNotifications, initialUnreadCount, currentUserId }: NotificationsPageClientProps) {
   const [notifications, setNotifications] = useState(initialNotifications);
   const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
+  const { isConnected, bindEvent, unbindEvent } = usePusher({
+    userId: currentUserId,
+  });
 
   useEffect(() => {
-    if (!currentUserId) return;
+    if (!isConnected) return;
 
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-    });
-
-    const channel = pusher.subscribe(`${currentUserId}-notification`);
-
-    channel.bind("notification:new", async () => {
+    const handleNewNotification = async () => {
       try {
         const updatedNotifications = await getNotifications();
         setNotifications(updatedNotifications);
@@ -42,29 +39,32 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount, cur
       } catch (error) {
         console.error("Error refreshing notifications:", error);
       }
-    });
+    };
+
+    bindEvent("notification:new", handleNewNotification);
 
     if ("Notification" in window && Notification.permission === "default") {
       Notification.requestPermission();
     }
 
     return () => {
-      channel.unbind("notification:new");
-      pusher.unsubscribe(`${currentUserId}-notification`);
-      pusher.disconnect();
+      unbindEvent("notification:new");
     };
-  }, [currentUserId]);
+  }, [isConnected, bindEvent, unbindEvent]);
 
   return (
     <Card>
       <CardHeader className="border-b">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">Notifications</CardTitle>
-          {unreadCount > 0 && (
-            <Badge variant="secondary" className="text-xs">
-              {unreadCount} unread
-            </Badge>
-          )}
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${isConnected ? "bg-green-500" : "bg-gray-400"}`} />
+            {unreadCount > 0 && (
+              <Badge variant="secondary" className="text-xs">
+                {unreadCount} unread
+              </Badge>
+            )}
+          </div>
         </div>
       </CardHeader>
       <CardContent className="p-0">
