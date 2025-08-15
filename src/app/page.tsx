@@ -3,6 +3,7 @@ import { syncUser, getCurrentUserId } from "@/actions/user.action";
 import { getPosts } from "@/actions/post.action";
 import PostFeed from "@/components/post/PostFeed";
 import PostUpload from "@/components/post/PostUpload";
+import FollowSuggestions from "@/components/widget/FollowSuggestions";
 
 export default async function Home() {
   const user = await currentUser();
@@ -14,12 +15,18 @@ export default async function Home() {
 
   return (
     <>
-      {user ? <PostUpload /> : null}
+      <div className="xl:col-span-6 space-y-5">
+        {user ? <PostUpload /> : null}
 
-      <div className="space-y-5">
         {posts.map((post) => (
           <PostFeed key={post.id} post={post} userId={userId} />
         ))}
+      </div>
+
+      <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start">
+        <div className="space-y-5">
+          <FollowSuggestions />
+        </div>
       </div>
     </>
   );

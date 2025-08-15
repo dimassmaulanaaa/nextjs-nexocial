@@ -21,6 +21,12 @@ export default async function NotificationsPageServer() {
   const unreadCount = unreadIds.length;
 
   return (
-    <NotificationsPageClient initialNotifications={notifications} initialUnreadCount={unreadCount} currentUserId={userId} />
+    <div className="xl:col-span-6 space-y-5">
+      <NotificationsPageClient
+        initialNotifications={notifications}
+        initialUnreadCount={unreadCount}
+        currentUserId={userId}
+      />
+    </div>
   );
 }

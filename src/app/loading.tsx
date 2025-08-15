@@ -5,7 +5,7 @@ function loading() {
   const skeletonItems = Array.from({ length: 3 }, (_, i) => i);
 
   return (
-    <>
+    <div className="xl:col-span-6 space-y-5">
       <Card className="mb-5">
         <CardContent className="pt-6">
           <div className="space-y-24">
@@ -24,7 +24,6 @@ function loading() {
           </div>
         </CardContent>
       </Card>
-
       {skeletonItems.map((index) => (
         <Card key={index} className="overflow-hidden mb-5">
           <CardContent className="p-4 sm:p-6">
@@ -48,7 +47,7 @@ function loading() {
           </CardContent>
         </Card>
       ))}
-    </>
+    </div>
   );
 }
 

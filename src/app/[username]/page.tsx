@@ -50,13 +50,15 @@ async function ProfilePageServer({ params }: Props) {
   ]);
 
   return (
-    <ProfilePageClient
-      currentUserId={currentUserId}
-      user={user}
-      posts={posts}
-      likedPosts={likedPosts}
-      isFollowing={isCurrentUserFollowing}
-    />
+    <div className="xl:col-span-6 space-y-5">
+      <ProfilePageClient
+        currentUserId={currentUserId}
+        user={user}
+        posts={posts}
+        likedPosts={likedPosts}
+        isFollowing={isCurrentUserFollowing}
+      />
+    </div>
   );
 }
 
