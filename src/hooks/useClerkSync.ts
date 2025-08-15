@@ -17,8 +17,6 @@ export const useClerkSync = (currentPageUsername?: string) => {
   const router = useRouter();
   const pathname = usePathname();
   const previousUserRef = useRef<UserDataType | null>(null);
-  const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const redirectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   const handleUsernameChange = useCallback(
@@ -39,9 +37,7 @@ export const useClerkSync = (currentPageUsername?: string) => {
         if (isCurrentUserProfile) {
           setIsRedirecting(true);
           router.replace(`/${newUsername}`);
-          redirectTimeoutRef.current = setTimeout(() => {
-            setIsRedirecting(false);
-          }, 5000);
+          setIsRedirecting(false);
 
           return;
         }
@@ -75,30 +71,18 @@ export const useClerkSync = (currentPageUsername?: string) => {
       currentUserData.imageUrl !== previousUserData.imageUrl;
 
     if (hasChanged) {
-      if (syncTimeoutRef.current) {
-        clearTimeout(syncTimeoutRef.current);
-      }
-
-      syncTimeoutRef.current = setTimeout(async () => {
+      const syncAndUpdate = async () => {
         try {
           await syncUser();
           await handleUsernameChange(previousUserData.username, currentUserData.username, currentPageUsername);
         } catch (error) {
           console.error("Error syncing user data:", error);
         }
-      }, 3000);
+      };
 
+      syncAndUpdate();
       previousUserRef.current = currentUserData;
     }
-
-    return () => {
-      if (syncTimeoutRef.current) {
-        clearTimeout(syncTimeoutRef.current);
-      }
-      if (redirectTimeoutRef.current) {
-        clearTimeout(redirectTimeoutRef.current);
-      }
-    };
   }, [user, isLoaded, handleUsernameChange, currentPageUsername, isRedirecting]);
 
   return {
