@@ -21,10 +21,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Nexocial (@${user.username})`,
+    title: `@${user.username} | Nexocial`,
     description: user.bio || `Check out ${user.name || user.username}'s profile`,
     openGraph: {
-      title: `Nexocial (@${user.username})`,
+      title: `@${user.username} | Nexocial`,
       description: user.bio || `Check out ${user.name || user.username}'s profile`,
       images: user.image ? [{ url: user.image }] : [],
     },
