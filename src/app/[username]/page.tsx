@@ -11,24 +11,62 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const user = await getUserProfile(params.username);
+  try {
+    const username = decodeURIComponent(params.username);
+    const user = await getUserProfile(username);
 
-  if (!user) {
+    if (!user) {
+      return {
+        title: "User Not Found | Nexocial",
+        description: "The requested user profile could not be found on Nexocial.",
+        robots: {
+          index: false,
+          follow: false,
+        },
+      };
+    }
+
+    const displayName = user.name || user.username;
+    const profileDescription = user.bio || `Check out ${displayName}'s profile on Nexocial`;
+    const imageUrl = user.image || "U";
+
     return {
-      title: "User Not Found",
-      description: "The requested user profile could not be found.",
+      title: `(@${user.username}) | Nexocial`,
+      description: profileDescription,
+      keywords: [`${user.username}`, "profile", "social media", "Nexocial", displayName],
+      authors: [{ name: displayName, url: `/${user.username}` }],
+      openGraph: {
+        title: `(@${user.username})`,
+        description: profileDescription,
+        type: "profile",
+        images: [
+          {
+            url: imageUrl,
+            width: 400,
+            height: 400,
+            alt: `${displayName}'s profile picture`,
+          },
+        ],
+        url: `/${user.username}`,
+        siteName: "Nexocial",
+      },
+      twitter: {
+        card: "summary",
+        title: `(@${user.username})`,
+        description: profileDescription,
+        images: [imageUrl],
+      },
+      alternates: {
+        canonical: `/${user.username}`,
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Profile | Nexocial",
+      description: "User profile on Nexocial",
     };
   }
-
-  return {
-    title: `@${user.username} | Nexocial`,
-    description: user.bio || `Check out ${user.name || user.username}'s profile`,
-    openGraph: {
-      title: `@${user.username} | Nexocial`,
-      description: user.bio || `Check out ${user.name || user.username}'s profile`,
-      images: user.image ? [{ url: user.image }] : [],
-    },
-  };
 }
 
 async function ProfilePageServer({ params }: Props) {

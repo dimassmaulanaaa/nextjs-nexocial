@@ -5,7 +5,21 @@ import NotificationsPageClient from "@/app/notifications/NotificationsPageClient
 
 export const metadata: Metadata = {
   title: "Notifications | Nexocial",
-  description: "View your latest notifications and updates",
+  description: "Stay updated with your latest notifications, mentions, likes, and follows on Nexocial",
+  openGraph: {
+    title: "Notifications | Nexocial",
+    description: "Stay updated with your latest notifications",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Notifications | Nexocial",
+    description: "Stay updated with your latest notifications",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function NotificationsPageServer() {
