@@ -11,7 +11,7 @@ function DesktopNavigation() {
   const pathname = usePathname();
   const navLinks = [
     { href: "/", label: "Home", icon: HomeIcon, auth: false },
-    { href: "/notifications", label: "Notifications", icon: BellIcon, auth: false },
+    { href: "/notifications", label: "Notifications", icon: BellIcon, auth: true },
     { href: `/${user?.username}`, label: "Profile", icon: UserAvatar, auth: true },
   ];
 

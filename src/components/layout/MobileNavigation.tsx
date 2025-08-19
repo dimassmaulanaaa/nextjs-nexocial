@@ -11,7 +11,7 @@ function MobileNavigation() {
   const pathname = usePathname();
   const navLinks = [
     { href: "/", icon: HomeIcon, auth: false },
-    { href: "/notifications", icon: BellIcon, auth: false },
+    { href: "/notifications", icon: BellIcon, auth: true },
     { href: `/${user?.username}`, icon: UserAvatar, auth: true },
   ];
 
