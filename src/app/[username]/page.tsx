@@ -88,7 +88,7 @@ async function ProfilePageServer({ params }: Props) {
   ]);
 
   return (
-    <div className="xl:col-span-6 space-y-5">
+    <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
       <ProfilePageClient
         currentUserId={currentUserId}
         user={user}

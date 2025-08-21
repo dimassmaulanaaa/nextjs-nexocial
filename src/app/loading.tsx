@@ -5,7 +5,7 @@ function loading() {
   const skeletonItems = Array.from({ length: 3 }, (_, i) => i);
 
   return (
-    <div className="xl:col-span-6 space-y-5">
+    <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
       <Card className="mb-5">
         <CardContent className="pt-6">
           <div className="space-y-24">

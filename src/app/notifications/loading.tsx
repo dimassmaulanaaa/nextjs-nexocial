@@ -6,7 +6,7 @@ function loading() {
   const skeletonItems = Array.from({ length: 7 }, (_, i) => i);
 
   return (
-    <div className="xl:col-span-6 space-y-5">
+    <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
       <Card>
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">

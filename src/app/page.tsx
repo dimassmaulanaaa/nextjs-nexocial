@@ -15,9 +15,8 @@ export default async function Home() {
 
   return (
     <>
-      <div className="xl:col-span-6 space-y-5">
+      <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
         {user ? <PostUpload /> : null}
-
         {posts.map((post) => (
           <PostFeed key={post.id} post={post} userId={userId} />
         ))}

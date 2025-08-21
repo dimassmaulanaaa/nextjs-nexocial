@@ -5,7 +5,7 @@ function loading() {
   const skeletonItems = Array.from({ length: 3 }, (_, i) => i);
 
   return (
-    <div className="xl:col-span-6 space-y-5">
+    <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
       <div className="max-w-3xl mx-auto">
         <div className="grid grid-cols-1 gap-6">
           {/* PROFILE HEADER */}
