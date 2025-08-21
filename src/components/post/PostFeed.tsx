@@ -137,8 +137,8 @@ function PostFeed({ post, userId }: PostFeedProps) {
 
           {/* IMAGE CONTENT */}
           {post.image && (
-            <div className="rounded-lg overflow-hidden">
-              <Image src={post.image} alt="Post content" width={500} height={300} className="w-full h-auto object-cover" />
+            <div className="rounded-lg relative aspect-square w-full bg-foreground/5">
+              <Image src={post.image} alt={`${post.author.username}'s content`} fill className="rounded-md object-contain" />
             </div>
           )}
 
