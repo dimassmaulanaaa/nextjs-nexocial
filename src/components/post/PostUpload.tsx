@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { ImageIcon, SendIcon } from "lucide-react";
 import { createPost } from "@/actions/post.action";
+import ImageUploadDropZone from "@/components/common/ImageUploadDropZone";
 import SubmitButton from "@/components/common/SubmitButton";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,6 +61,19 @@ function PostUpload() {
               disabled={isLoading}
             />
           </div>
+
+          {(showImageUpload || imageUrl) && (
+            <div className="border rounded-lg p-4">
+              <ImageUploadDropZone
+                endpoint="imageUploader"
+                value={imageUrl}
+                onChange={(url) => {
+                  setImageUrl(url);
+                  if (!url) setShowImageUpload(false);
+                }}
+              />
+            </div>
+          )}
 
           <div className="flex items-center justify-between border-t pt-4">
             <div className="flex space-x-2">
