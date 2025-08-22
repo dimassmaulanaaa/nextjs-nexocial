@@ -10,9 +10,9 @@ function MobileNavigation() {
   const { user } = useUser();
   const pathname = usePathname();
   const navLinks = [
-    { href: "/", icon: HomeIcon, auth: false },
-    { href: "/notifications", icon: BellIcon, auth: true },
-    { href: `/${user?.username}`, icon: UserAvatar, auth: true },
+    { href: "/", label: "Home", icon: HomeIcon, auth: false },
+    { href: "/notifications", label: "Notifications", icon: BellIcon, auth: true },
+    { href: `/${user?.username}`, label: "Profile", icon: UserAvatar, auth: true },
   ];
 
   return (
@@ -25,7 +25,7 @@ function MobileNavigation() {
 
             return (
               <li key={link.href}>
-                <Link href={link.href} className={`hover:text-primary/85 items-center`}>
+                <Link href={link.href} aria-label={link.label} className={`hover:text-primary/85 items-center`}>
                   {link.icon === UserAvatar ? (
                     <UserAvatar
                       className={`${isActive ? "size-8" : "size-7"}`}

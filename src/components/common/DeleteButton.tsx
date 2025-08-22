@@ -19,7 +19,7 @@ function DeleteButton({ onClick, isLoading }: deleteButtonProps) {
       actionText="Delete"
       variant="destructive"
     >
-      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500">
+      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-red-500" aria-label="Delete">
         <Trash2Icon className="size-4" />
       </Button>
     </ConfirmationDialog>

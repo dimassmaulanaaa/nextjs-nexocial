@@ -33,6 +33,7 @@ function DesktopNavigation() {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  aria-label={link.label}
                   className={`flex gap-5 text-lg font-semibold hover:text-primary/85 hover:border-primary/85 ${
                     isActive ? "font-bold border-primary border-r-[3px]" : ""
                   }`}

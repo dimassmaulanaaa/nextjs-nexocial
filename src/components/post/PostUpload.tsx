@@ -51,6 +51,7 @@ function PostUpload() {
             <UserAvatar
               className="size-10"
               src={user?.imageUrl}
+              alt={`${user?.fullName} profile picture`}
               fallback={(user?.firstName?.charAt(0) ?? "") + (user?.lastName?.charAt(0) ?? "").trim() || "U"}
             />
             <Textarea

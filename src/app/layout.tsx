@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="min-h-screen">
@@ -65,7 +65,7 @@ export default function RootLayout({
                     </main>
 
                     <footer className="grid grid-cols-1 xl:grid-cols-10 mb-16 md:mb-0">
-                      <div className="xl:col-span-6 text-xs text-muted-foreground/50 text-center">
+                      <div className="xl:col-span-6 text-xs text-muted-foreground/75 text-center">
                         <p className="mt-2">
                           &copy; {new Date().getFullYear()} Nexocial by Dimas Maulana. All Rights Reserved.
                         </p>
