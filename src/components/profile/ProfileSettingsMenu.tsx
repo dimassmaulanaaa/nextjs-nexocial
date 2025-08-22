@@ -58,7 +58,7 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size={"icon"} variant={"ghost"}>
+          <Button size={"icon"} variant={"ghost"} aria-label="Settings">
             <SettingsIcon />
           </Button>
         </DropdownMenuTrigger>
