@@ -44,7 +44,7 @@ function MobileNavigation() {
         {user ? null : (
           <li>
             <SignInButton mode="modal" fallbackRedirectUrl="/">
-              <Link href="/" className="hover:text-primary/85">
+              <Link href="/" aria-label="SignIn" className="hover:text-primary/85">
                 <LogInIcon />
               </Link>
             </SignInButton>

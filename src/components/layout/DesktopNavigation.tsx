@@ -53,7 +53,7 @@ function DesktopNavigation() {
         {user ? null : (
           <li>
             <SignInButton mode="modal" fallbackRedirectUrl="/">
-              <Link href="/" className="flex gap-5 text-lg font-semibold hover:text-primary/85">
+              <Link href="/" aria-label="SignIn" className="flex gap-5 text-lg font-semibold hover:text-primary/85">
                 <LogInIcon className="size-8 lg:size-7" /> <span className="hidden lg:block">Sign in</span>
               </Link>
             </SignInButton>
