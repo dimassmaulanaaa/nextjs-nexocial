@@ -47,8 +47,11 @@ function CommentForm({ postId }: CommentFormProps) {
           onChange={(e) => setNewComment(e.target.value)}
           className="min-h-[80px] resize-none"
           disabled={isLoading}
+          maxLength={500}
           autoFocus
         />
+        <div className="text-xs text-muted-foreground text-right">{newComment.length}/500</div>
+
         <div className="flex justify-end mt-2">
           {user ? (
             <SubmitButton

@@ -15,12 +15,7 @@ function CommentButton({ isAuthenticated, showComments, commentCount, onClick }:
   return (
     <>
       {isAuthenticated ? (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-muted-foreground gap-2 hover:text-blue-500" // Tambahkan gap-2
-          onClick={onClick}
-        >
+        <Button variant="ghost" size="sm" className="text-muted-foreground gap-2 hover:text-blue-500" onClick={onClick}>
           <MessageCircleIcon className={`size-5 ${showComments ? "fill-blue-500 text-blue-500" : ""}`} />
           <span>{commentCount}</span>
         </Button>

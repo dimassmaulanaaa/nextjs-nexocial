@@ -158,7 +158,7 @@ function PostFeed({ post, userId }: PostFeedProps) {
                 showComments={showComments}
                 commentCount={post.comments.length}
                 onClick={() => setShowComments((prev) => !prev)}
-              />{" "}
+              />
             </div>
 
             {/* DELETE */}
