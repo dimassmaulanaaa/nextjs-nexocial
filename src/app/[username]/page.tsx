@@ -12,6 +12,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
+    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
     const username = decodeURIComponent(params.username);
     const user = await getUserProfile(username);
 
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         images: [imageUrl],
       },
       alternates: {
-        canonical: `/${user.username}`,
+        canonical: `${baseUrl}/${user.username}`,
       },
     };
   } catch (error) {
