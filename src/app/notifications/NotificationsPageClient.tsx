@@ -114,19 +114,20 @@ function NotificationsPageClient({ initialNotifications, initialUnreadCount, cur
 
                   {/* NOTIFICATION CONTENT & IMAGE */}
                   {notification.post && (notification.type === "LIKE" || notification.type === "COMMENT") && (
-                    <div className="flex items-start max-h-20 md:max-h-32 p-3 rounded-md text-sm bg-muted-foreground/10">
+                    <div className="grid grid-cols-12 sm:grid-cols-6 gap-3 p-3 items-start rounded-md text-sm bg-muted-foreground/10">
                       {/* CONTENT */}
-                      <p className="line-clamp-3 md:line-clamp-5">{notification.post.content}</p>
+                      <p className="col-span-9 sm:col-span-5 line-clamp-3 sm:line-clamp-4">{notification.post.content}</p>
 
                       {/* IMAGE */}
                       {notification.post.image && (
-                        <Image
-                          src={notification.post.image}
-                          alt="Post content"
-                          className="rounded-md w-full max-w-[200px] h-auto object-cover"
-                          width={200}
-                          height={100}
-                        />
+                        <div className="col-span-3 sm:col-span-1 relative self-center aspect-square size-auto rounded-lg bg-foreground/5">
+                          <Image
+                            src={notification.post.image}
+                            alt={`Content image ${notification.post.id}`}
+                            className="rounded-md object-contain"
+                            fill
+                          />
+                        </div>
                       )}
                     </div>
                   )}
