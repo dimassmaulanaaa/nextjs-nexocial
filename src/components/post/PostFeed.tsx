@@ -14,6 +14,7 @@ import CommentList from "@/components/common/CommentList";
 import LikeButton from "@/components/common/LikeButton";
 import DeleteButton from "@/components/common/DeleteButton";
 import UserAvatar from "@/components/common/UserAvatar";
+import PostFeedSkeleton from "@/components/post/PostFeedSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
 type Posts = Awaited<ReturnType<typeof getPosts>>;
@@ -24,7 +25,7 @@ type PostFeedProps = {
 };
 
 function PostFeed({ post, userId }: PostFeedProps) {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === userId));
   const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
@@ -80,6 +81,10 @@ function PostFeed({ post, userId }: PostFeedProps) {
       setIsLoading(false);
     }
   };
+
+  if (!isLoaded) {
+    return <PostFeedSkeleton />;
+  }
 
   return (
     <Card className="overflow-hidden">

@@ -9,11 +9,12 @@ import ImageUploadDropZone from "@/components/common/ImageUploadDropZone";
 import SubmitButton from "@/components/common/SubmitButton";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Card, CardContent } from "@/components/ui/card";
+import PostUploadSkeleton from "@/components/post/PostUploadSkeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 function PostUpload() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +43,10 @@ function PostUpload() {
       setIsLoading(false);
     }
   };
+
+  if (!isLoaded) {
+    return <PostUploadSkeleton />;
+  }
 
   return (
     <Card className="mb-5">

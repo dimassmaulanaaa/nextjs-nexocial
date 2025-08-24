@@ -29,7 +29,7 @@ type ProfilePageClientProps = {
 };
 
 function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing }: ProfilePageClientProps) {
-  const { user: currentUser } = useUser();
+  const { user: currentUser, isLoaded } = useUser();
   const { isRedirecting } = useClerkSync(user.username);
 
   const isOwnProfile = useMemo(() => currentUser?.username === user.username, [currentUser?.username, user.username]);
@@ -43,9 +43,7 @@ function ProfilePageClient({ currentUserId, user, posts, likedPosts, isFollowing
     [user._count]
   );
 
-  if (isRedirecting) {
-    return <ProfilePageSkeleton />;
-  }
+  if (!isLoaded || isRedirecting) return <ProfilePageSkeleton />;
 
   return (
     <div className="max-w-3xl mx-auto">
