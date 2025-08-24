@@ -77,28 +77,24 @@ function PostUpload() {
           )}
 
           <div className="flex items-center justify-between border-t pt-4">
-            <div className="flex space-x-2">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
-                onClick={() => setShowImageUpload(!showImageUpload)}
-                disabled={isLoading}
-              >
-                <ImageIcon className="size-4 mr-2" />
-                Photo
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              className="px-5 text-muted-foreground hover:text-primary"
+              onClick={() => setShowImageUpload(!showImageUpload)}
+              disabled={isLoading}
+            >
+              <ImageIcon className="size-4" />
+              Photo
+            </Button>
 
             <SubmitButton
-              className="flex items-center gap-2 px-5"
+              className="px-5"
               isLoading={isLoading}
               onClick={handleSubmit}
               disabled={(!content.trim() && !imageUrl) || isLoading}
             >
               <SendIcon className="size-4" />
-              <span>Post</span>
+              Post
             </SubmitButton>
           </div>
         </div>
