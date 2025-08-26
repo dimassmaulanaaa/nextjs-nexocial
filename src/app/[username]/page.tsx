@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCurrentUserId, getUserProfile } from "@/actions/user.action";
-import { getUserLikedPosts, getUserPosts } from "@/actions/post.action";
 import { isFollowing } from "@/actions/follows.action";
-import ProfilePageClient from "@/app/[username]/ProfilePageClient";
+import { getUserLikedPosts, getUserPosts } from "@/actions/post.action";
+import { getCurrentUserId, getUserProfile } from "@/actions/user.action";
+import ProfileHeader from "@/components/profile/ProfileHeader";
+import ProfilePostTabs from "@/components/profile/ProfilePostTabs";
 
 type Props = {
   params: { username: string };
@@ -82,21 +83,25 @@ async function ProfilePageServer({ params }: Props) {
     notFound();
   }
 
-  const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
-    getUserPosts(user.id).catch(() => []),
-    getUserLikedPosts(user.id).catch(() => []),
+  const [initialPosts, initialLikedPosts, isCurrentUserFollowing] = await Promise.all([
+    getUserPosts(user.id, 1, 5).catch(() => []),
+    getUserLikedPosts(user.id, 1, 5).catch(() => []),
     isFollowing(user.id).catch(() => false),
   ]);
 
   return (
     <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
-      <ProfilePageClient
-        currentUserId={currentUserId}
-        user={user}
-        posts={posts}
-        likedPosts={likedPosts}
-        isFollowing={isCurrentUserFollowing}
-      />
+      <div className="max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 gap-6">
+          <ProfileHeader user={user} isFollowing={isCurrentUserFollowing} />
+          <ProfilePostTabs
+            currentUserId={currentUserId}
+            user={user}
+            initialPosts={initialPosts}
+            initialLikedPosts={initialLikedPosts}
+          />
+        </div>
+      </div>
     </div>
   );
 }

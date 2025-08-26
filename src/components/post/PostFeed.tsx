@@ -17,14 +17,13 @@ import UserAvatar from "@/components/common/UserAvatar";
 import PostFeedSkeleton from "@/components/post/PostFeedSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
-type Posts = Awaited<ReturnType<typeof getPosts>>;
-type Post = Posts[number];
+type Post = Awaited<ReturnType<typeof getPosts>>[number];
 type PostFeedProps = {
-  post: Post;
   userId: string | null;
+  post: Post;
 };
 
-function PostFeed({ post, userId }: PostFeedProps) {
+function PostFeed({ userId, post }: PostFeedProps) {
   const { user, isLoaded } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === userId));
@@ -144,7 +143,14 @@ function PostFeed({ post, userId }: PostFeedProps) {
           {/* IMAGE CONTENT */}
           {post.image && (
             <div className="rounded-lg relative aspect-square w-full bg-foreground/5">
-              <Image src={post.image} alt={`${post.author.username}'s content`} fill className="rounded-md object-contain" />
+              <Image
+                src={post.image}
+                alt={`${post.author.username}'s content`}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                priority
+                className="rounded-md object-contain"
+              />
             </div>
           )}
 

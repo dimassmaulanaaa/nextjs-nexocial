@@ -26,12 +26,14 @@ export async function createPost(content: string, image: string) {
   }
 }
 
-export async function getPosts() {
+export async function getPosts(page: number, limit: number) {
   try {
     const posts = await prisma.post.findMany({
       orderBy: {
         createdAt: "desc",
       },
+      skip: (page - 1) * limit,
+      take: limit,
       include: {
         author: {
           select: {
@@ -76,12 +78,17 @@ export async function getPosts() {
   }
 }
 
-export async function getUserPosts(userId: string) {
+export async function getUserPosts(userId: string, page: number, limit: number) {
   try {
     const posts = await prisma.post.findMany({
       where: {
         authorId: userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
+      skip: (page - 1) * limit,
+      take: limit,
       include: {
         author: {
           select: {
@@ -118,9 +125,6 @@ export async function getUserPosts(userId: string) {
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
     });
 
     return posts;
@@ -130,7 +134,7 @@ export async function getUserPosts(userId: string) {
   }
 }
 
-export async function getUserLikedPosts(userId: string) {
+export async function getUserLikedPosts(userId: string, page: number, limit: number) {
   try {
     const likes = await prisma.like.findMany({
       where: {
@@ -139,6 +143,8 @@ export async function getUserLikedPosts(userId: string) {
       orderBy: {
         createdAt: "desc",
       },
+      skip: (page - 1) * limit,
+      take: limit,
       include: {
         post: {
           include: {
