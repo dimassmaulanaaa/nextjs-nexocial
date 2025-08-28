@@ -49,9 +49,13 @@ function PostUpload() {
   }
 
   return (
-    <Card className="mb-5">
-      <CardContent className="pt-6">
-        <div className="space-y-4">
+    <section aria-labelledby="post-upload-heading">
+      <h2 id="post-upload-heading" className="sr-only">
+        Create New Post
+      </h2>
+
+      <Card>
+        <CardContent className="pt-6 space-y-4">
           <div className="flex space-x-4">
             <UserAvatar
               className="size-10"
@@ -102,9 +106,9 @@ function PostUpload() {
               Post
             </SubmitButton>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </section>
   );
 }
 export default PostUpload;

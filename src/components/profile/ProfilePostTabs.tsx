@@ -59,31 +59,37 @@ function ProfilePostTabs({ currentUserId, user, initialPosts, initialLikedPosts 
       </TabsList>
 
       {/* POSTS */}
-      <TabsContent value="posts" className="mt-6">
-        <div className="space-y-6">
-          {initialPosts.length > 0 ? (
-            <PostList userId={currentUserId} initialPosts={initialPosts} fetcher={fetchUserPosts} />
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <p className="text-lg font-medium">No posts yet</p>
-              <p className="text-sm mt-2">When you share something, it will appear here</p>
-            </div>
-          )}
-        </div>
+      <TabsContent value="posts" className="mt-5">
+        {initialPosts.length > 0 ? (
+          <PostList userId={currentUserId} initialPosts={initialPosts} fetcher={fetchUserPosts} />
+        ) : (
+          <section className="text-center py-8 text-muted-foreground" aria-labelledby="posts-heading">
+            <h2 id="posts-heading" className="sr-only">
+              Post List
+            </h2>
+
+            <p className="text-lg font-medium">No posts yet</p>
+
+            <p className="text-sm mt-2">When you share something, it will appear here</p>
+          </section>
+        )}
       </TabsContent>
 
       {/* LIKED POSTS */}
-      <TabsContent value="likes" className="mt-6">
-        <div className="space-y-6">
-          {initialPosts.length > 0 ? (
-            <PostList userId={currentUserId} initialPosts={initialLikedPosts} fetcher={fetchUserLikedPosts} />
-          ) : (
-            <div className="text-center py-8 text-muted-foreground">
-              <p className="text-lg font-medium">No liked posts to show</p>
-              <p className="text-sm mt-2">Posts you like will appear here</p>
-            </div>
-          )}
-        </div>
+      <TabsContent value="likes" className="mt-5">
+        {initialPosts.length > 0 ? (
+          <PostList userId={currentUserId} initialPosts={initialLikedPosts} fetcher={fetchUserLikedPosts} />
+        ) : (
+          <section className="text-center py-8 text-muted-foreground" aria-labelledby="liked-posts-heading">
+            <h2 id="liked-posts-heading" className="sr-only">
+              Liked Post List
+            </h2>
+
+            <p className="text-lg font-medium">No liked posts to show</p>
+
+            <p className="text-sm mt-2">Posts you like will appear here</p>
+          </section>
+        )}
       </TabsContent>
     </Tabs>
   );

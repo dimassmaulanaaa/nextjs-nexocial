@@ -86,9 +86,9 @@ function PostFeed({ userId, post }: PostFeedProps) {
   }
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-4 sm:p-6">
-        <div className="space-y-4">
+    <article>
+      <Card>
+        <CardContent className="p-4 sm:p-6 space-y-4">
           {/* HEADER & CONTENT */}
           <div className="flex space-x-3 sm:space-x-4">
             {user ? (
@@ -189,9 +189,9 @@ function PostFeed({ userId, post }: PostFeedProps) {
               <CommentForm postId={post.id} />
             </div>
           )}
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </article>
   );
 }
 

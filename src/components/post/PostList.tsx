@@ -28,9 +28,15 @@ function PostList({ userId, fetcher, initialPosts }: PostListProps) {
 
   return (
     <>
-      {posts.map((post) => (
-        <PostFeed key={post.id} post={post} userId={userId} />
-      ))}
+      <section className="space-y-5" aria-labelledby="posts-heading">
+        <h2 id="posts-heading" className="sr-only">
+          Post List
+        </h2>
+
+        {posts.map((post) => (
+          <PostFeed key={post.id} post={post} userId={userId} />
+        ))}
+      </section>
 
       {hasMore && (
         <div ref={ref} className="mt-4">

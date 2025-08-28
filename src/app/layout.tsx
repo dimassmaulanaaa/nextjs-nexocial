@@ -60,9 +60,7 @@ export default function RootLayout({
                   </div>
 
                   <div className="md:col-span-11 lg:col-span-9 px-3 md:p-5 p-3">
-                    <main>
-                      <section className="grid grid-cols-1 xl:grid-cols-10 gap-5 mb-3">{children}</section>
-                    </main>
+                    <main className="grid grid-cols-1 xl:grid-cols-10 gap-5 mb-3">{children}</main>
 
                     <footer className="grid grid-cols-1 xl:grid-cols-10 mb-16 md:mb-0">
                       <div className="xl:col-span-6 text-xs text-muted-foreground/75 text-center">

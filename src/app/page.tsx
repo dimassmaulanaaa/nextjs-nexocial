@@ -21,10 +21,8 @@ export default async function Home() {
         <PostList userId={userId} fetcher={getPosts} initialPosts={initialPosts} />
       </div>
 
-      <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start">
-        <div className="space-y-5">
-          <FollowSuggestions />
-        </div>
+      <div className="hidden xl:block xl:col-span-4 sticky top-5 self-start space-y-5">
+        <FollowSuggestions />
       </div>
     </>
   );

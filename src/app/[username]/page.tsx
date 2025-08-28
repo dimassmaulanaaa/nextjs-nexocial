@@ -91,17 +91,13 @@ async function ProfilePageServer({ params }: Props) {
 
   return (
     <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
-      <div className="max-w-3xl mx-auto">
-        <div className="grid grid-cols-1 gap-6">
-          <ProfileHeader user={user} isFollowing={isCurrentUserFollowing} />
-          <ProfilePostTabs
-            currentUserId={currentUserId}
-            user={user}
-            initialPosts={initialPosts}
-            initialLikedPosts={initialLikedPosts}
-          />
-        </div>
-      </div>
+      <ProfileHeader user={user} isFollowing={isCurrentUserFollowing} />
+      <ProfilePostTabs
+        currentUserId={currentUserId}
+        user={user}
+        initialPosts={initialPosts}
+        initialLikedPosts={initialLikedPosts}
+      />
     </div>
   );
 }
