@@ -77,7 +77,7 @@ function ProfilePostTabs({ currentUserId, user, initialPosts, initialLikedPosts 
 
       {/* LIKED POSTS */}
       <TabsContent value="likes" className="mt-5">
-        {initialPosts.length > 0 ? (
+        {initialLikedPosts.length > 0 ? (
           <PostList userId={currentUserId} initialPosts={initialLikedPosts} fetcher={fetchUserLikedPosts} />
         ) : (
           <section className="text-center py-8 text-muted-foreground" aria-labelledby="liked-posts-heading">
