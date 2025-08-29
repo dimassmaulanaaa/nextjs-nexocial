@@ -25,16 +25,16 @@ function ProfilePostTabs({ currentUserId, user, initialPosts, initialLikedPosts 
 
   const fetchUserPosts = useCallback(
     (page: number, pageSize: number) => {
-      return getUserPosts(currentUserId, page, pageSize);
+      return getUserPosts(user.id, page, pageSize);
     },
-    [currentUserId]
+    [user.id]
   );
 
   const fetchUserLikedPosts = useCallback(
     (page: number, pageSize: number) => {
-      return getUserLikedPosts(currentUserId, page, pageSize);
+      return getUserLikedPosts(user.id, page, pageSize);
     },
-    [currentUserId]
+    [user.id]
   );
 
   if (isRedirecting) return <ProfilePageSkeleton />;
