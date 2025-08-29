@@ -44,9 +44,9 @@ function PostUpload() {
     }
   };
 
-  if (!isLoaded) {
-    return <PostUploadSkeleton />;
-  }
+  if (!isLoaded) return <PostUploadSkeleton />;
+
+  if (!user) return null;
 
   return (
     <section aria-labelledby="post-upload-heading">
@@ -60,8 +60,8 @@ function PostUpload() {
             <UserAvatar
               className="size-10"
               src={user?.imageUrl}
-              alt={`${user?.fullName} profile picture`}
-              fallback={(user?.firstName?.charAt(0) ?? "") + (user?.lastName?.charAt(0) ?? "").trim() || "U"}
+              alt={`${user.fullName} profile picture`}
+              fallback={user.firstName?.charAt(0) || "U"}
             />
             <Textarea
               placeholder="What's on your mind?"

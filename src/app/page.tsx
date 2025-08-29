@@ -16,7 +16,7 @@ export default async function Home() {
   return (
     <>
       <div className="xl:col-span-6 w-full max-w-xl space-y-5 mx-auto">
-        {user ? <PostUpload /> : null}
+        <PostUpload />
 
         <PostList userId={userId} fetcher={getPosts} initialPosts={initialPosts} />
       </div>
