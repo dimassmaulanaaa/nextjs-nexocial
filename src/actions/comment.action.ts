@@ -27,7 +27,7 @@ export async function createComment(postId: string, content: string) {
     const [comment] = await prisma.$transaction(async (tx) => {
       const newComment = await tx.comment.create({
         data: {
-          content,
+          content: content.trim(),
           authorId: userId,
           postId,
         },

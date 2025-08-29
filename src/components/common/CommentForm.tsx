@@ -19,8 +19,6 @@ function CommentForm({ postId }: CommentFormProps) {
   const [newComment, setNewComment] = useState("");
 
   const handleSubmit = async () => {
-    if (!newComment.trim() || isLoading) return;
-
     try {
       setIsLoading(true);
       const result = await createComment(postId, newComment);
@@ -28,10 +26,12 @@ function CommentForm({ postId }: CommentFormProps) {
       if (result.success) {
         setNewComment("");
       } else {
-        toast.error(result.error || "Failed to post comment.");
+        toast.error(result.error || "Failed to post comment");
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong.");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
+      );
     } finally {
       setIsLoading(false);
     }

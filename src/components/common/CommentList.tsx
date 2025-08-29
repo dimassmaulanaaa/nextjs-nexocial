@@ -30,7 +30,7 @@ function CommentList({ comment }: CommentListProps) {
           <span className="text-xs text-muted-foreground">•</span>
           <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(comment.createdAt))} ago</span>
         </div>
-        <p className="text-sm break-words">{comment.content}</p>
+        <p className="text-sm break-words whitespace-pre-wrap">{comment.content}</p>
       </div>
     </div>
   );
