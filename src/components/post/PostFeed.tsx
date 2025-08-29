@@ -29,6 +29,9 @@ function PostFeed({ userId, post }: PostFeedProps) {
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === userId));
   const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const isLongPost = (post.content?.length || 0) > 300;
 
   const handleLike = async () => {
     if (isLoading) return;
@@ -128,7 +131,9 @@ function PostFeed({ userId, post }: PostFeedProps) {
                       </Link>
                     </SignInButton>
                   )}
+
                   <span className="text-xs text-muted-foreground">•</span>
+
                   <span className="text-xs text-muted-foreground">
                     {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
                   </span>
@@ -136,7 +141,23 @@ function PostFeed({ userId, post }: PostFeedProps) {
               </div>
 
               {/* TEXT CONTENT */}
-              <p className="mt-2 text-sm text-foreground break-words whitespace-pre-wrap">{post.content}</p>
+              <p
+                className={`mt-2 text-sm text-foreground break-words whitespace-pre-wrap ${
+                  isLongPost && !isExpanded ? "line-clamp-3" : ""
+                }`}
+              >
+                {post.content}
+              </p>
+
+              {/* MORE BUTTONS */}
+              {isLongPost && (
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-sm text-muted-foreground hover:text-primary mt-1"
+                >
+                  {isExpanded ? "show less" : "show more"}
+                </button>
+              )}
             </div>
           </div>
 
