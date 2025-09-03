@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { pusherServer } from "@/lib/pusher";
 import { getCurrentUserId } from "@/actions/user.action";
@@ -71,7 +70,6 @@ export async function toggleLike(postId: string) {
       }
     }
 
-    revalidatePath("/");
     return { success: true };
   } catch (error) {
     console.error("Error in toggleLike:", error);

@@ -1,7 +1,7 @@
-import ProfilePageSkeleton from "@/components/profile/ProfilePageSkeleton";
+import PostFeedSkeleton from "@/components/post/PostFeedSkeleton";
 
 function loading() {
-  return <ProfilePageSkeleton />;
+  return <PostFeedSkeleton />;
 }
 
 export default loading;

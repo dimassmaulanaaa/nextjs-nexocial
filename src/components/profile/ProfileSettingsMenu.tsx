@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { SignOutButton, useClerk } from "@clerk/nextjs";
+import { useState, useEffect, useRef } from "react";
+import { SignOutButton, useClerk, useUser } from "@clerk/nextjs";
+import { useRouter, usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { SettingsIcon } from "lucide-react";
-import { getUserProfile, updateUserProfile } from "@/actions/user.action";
+import { getUserProfile, syncUser, updateUserProfile } from "@/actions/user.action";
 import SubmitButton from "@/components/common/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -17,6 +18,9 @@ type User = Awaited<ReturnType<typeof getUserProfile>>;
 
 function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
   const { openUserProfile } = useClerk();
+  const { user: clerkUser } = useUser();
+  const router = useRouter();
+  const pathname = usePathname();
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editForm, setEditForm] = useState({
@@ -24,6 +28,50 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
     location: user.location || "",
     website: user.website || "",
   });
+  const previousClerkDataRef = useRef({
+    username: clerkUser?.username,
+    firstName: clerkUser?.firstName,
+    lastName: clerkUser?.lastName,
+    imageUrl: clerkUser?.imageUrl,
+  });
+
+  useEffect(() => {
+    if (!clerkUser) return;
+
+    const currentClerkData = {
+      username: clerkUser.username,
+      firstName: clerkUser.firstName,
+      lastName: clerkUser.lastName,
+      imageUrl: clerkUser.imageUrl,
+    };
+
+    const hasDataChanged = JSON.stringify(previousClerkDataRef.current) !== JSON.stringify(currentClerkData);
+
+    if (hasDataChanged) {
+      const syncUserUpdate = async () => {
+        try {
+          await syncUser();
+
+          const currentUsername = pathname.split("/")[1];
+          const newUsername = clerkUser.username;
+
+          if (newUsername && currentUsername !== newUsername) {
+            router.push(`/${newUsername}`);
+          } else {
+            router.refresh();
+          }
+
+          previousClerkDataRef.current = currentClerkData;
+        } catch (error) {
+          console.error("Error syncing user data:", error);
+          toast.error(
+            error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
+          );
+        }
+      };
+      syncUserUpdate();
+    }
+  }, [clerkUser, router, pathname]);
 
   const handleEditSubmit = async () => {
     if (isLoading) return;
@@ -41,11 +89,11 @@ function ProfileSettingsMenu({ user }: { user: NonNullable<User> }) {
 
       if (result.success) {
         setShowEditDialog(false);
-        toast.success("Profile updated successfully");
       } else {
         toast.error(result.error || "Failed to edit profile");
       }
     } catch (error) {
+      console.error("Error updating user profile:", error);
       toast.error(
         error instanceof Error ? error.message : "Something went wrong. Please check your connection and try again"
       );

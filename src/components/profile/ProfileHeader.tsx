@@ -1,42 +1,21 @@
-"use client";
-
-import { useMemo } from "react";
-import dynamic from "next/dynamic";
-import { useUser } from "@clerk/nextjs";
 import { format } from "date-fns";
 import { CalendarIcon, LinkIcon, MapPinIcon } from "lucide-react";
 import { getUserProfile } from "@/actions/user.action";
-import { useClerkSync } from "@/hooks/useClerkSync";
+import FollowButton from "@/components/common/FollowButton";
+import ModeToggle from "@/components/common/ModeToggle";
 import UserAvatar from "@/components/common/UserAvatar";
+import ProfileSettingsMenu from "@/components/profile/ProfileSettingsMenu";
 import { Card, CardContent } from "@/components/ui/card";
-import ProfilePageSkeleton from "@/components/profile/ProfilePageSkeleton";
-
-const FollowButton = dynamic(() => import("@/components/common/FollowButton"));
-const ModeToggle = dynamic(() => import("@/components/common/ModeToggle"));
-const ProfileSettingsMenu = dynamic(() => import("@/components/profile/ProfileSettingsMenu"));
 
 type User = Awaited<ReturnType<typeof getUserProfile>>;
 type ProfileHeaderProps = {
   user: NonNullable<User>;
-  isFollowing: boolean;
+  isOwnProfile: boolean;
+  initialIsFollowing: boolean;
 };
 
-function ProfileHeader({ user, isFollowing }: ProfileHeaderProps) {
-  const { user: currentUser, isLoaded } = useUser();
-  const { isRedirecting } = useClerkSync(user.username);
-
-  const isOwnProfile = useMemo(() => currentUser?.username === user.username, [currentUser?.username, user.username]);
-  const formattedDate = useMemo(() => format(new Date(user.createdAt), "MMMM yyyy"), [user.createdAt]);
-  const stats = useMemo(
-    () => ({
-      following: user._count.following,
-      followers: user._count.followers,
-      posts: user._count.posts,
-    }),
-    [user._count]
-  );
-
-  if (!isLoaded || isRedirecting) return <ProfilePageSkeleton />;
+function ProfileHeader({ user, isOwnProfile, initialIsFollowing }: ProfileHeaderProps) {
+  const formattedDate = format(new Date(user.createdAt), "MMMM yyyy");
 
   return (
     <section aria-labelledby="profile-heading">
@@ -63,27 +42,27 @@ function ProfileHeader({ user, isFollowing }: ProfileHeaderProps) {
                   <ModeToggle />
                 </span>
               ) : (
-                <FollowButton targetUserId={user.id} initialIsFollowing={isFollowing} />
+                <FollowButton targetUserId={user.id} initialIsFollowing={initialIsFollowing} />
               )}
             </div>
 
             {/* STATS */}
             <div className="flex gap-3 sm:gap-5 pr-5 md:pr-11 font-semibold">
               <div>
-                {stats.following.toLocaleString()} <span className="font-normal text-muted-foreground">following</span>
+                {user._count.following.toLocaleString()} <span className="font-normal text-muted-foreground">following</span>
               </div>
               <div>
-                {stats.followers.toLocaleString()} <span className="font-normal text-muted-foreground">followers</span>
+                {user._count.followers.toLocaleString()} <span className="font-normal text-muted-foreground">followers</span>
               </div>
               <div>
-                {stats.posts.toLocaleString()} <span className="font-normal text-muted-foreground">posts</span>
+                {user._count.posts.toLocaleString()} <span className="font-normal text-muted-foreground">posts</span>
               </div>
             </div>
 
             {/* PROFILE INFO */}
             <div className="w-full text-sm space-y-2">
               <p className="font-semibold break-words">{user.name}</p>
-              <p className="break-words">{user.bio}</p>
+              <p className="break-words whitespace-pre-wrap">{user.bio}</p>
             </div>
 
             {/* ADDITIONAL INFO */}
@@ -111,7 +90,7 @@ function ProfileHeader({ user, isFollowing }: ProfileHeaderProps) {
 
               <div className="flex gap-1 items-center">
                 <CalendarIcon className="size-3 flex-shrink-0" />
-                <span>Joined {formattedDate}</span>
+                <span className="truncate">Joined {formattedDate}</span>
               </div>
             </div>
           </div>

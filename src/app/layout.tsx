@@ -4,8 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import DesktopNavigation from "@/components/layout/DesktopNavigation";
-import MobileNavigation from "@/components/layout/MobileNavigation";
+import DesktopNavigation from "@/components/navigations/DesktopNavigation";
+import MobileNavigation from "@/components/navigations/MobileNavigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

@@ -1,5 +1,6 @@
 "use server";
 
+import { cache } from "react";
 import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import sanitizeHtml from "sanitize-html";
@@ -38,7 +39,7 @@ export async function syncUser() {
   }
 }
 
-export async function getCurrentUserId() {
+export const getCurrentUserId = cache(async () => {
   const { userId: clerkId } = await auth();
 
   if (!clerkId) return null;
@@ -57,7 +58,7 @@ export async function getCurrentUserId() {
   }
 
   return user.id;
-}
+});
 
 export async function getSuggestedUsers() {
   try {
@@ -105,7 +106,7 @@ export async function getSuggestedUsers() {
   }
 }
 
-export async function getUserProfile(username: string) {
+export const getUserProfile = cache(async (username: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -135,7 +136,7 @@ export async function getUserProfile(username: string) {
     console.error("Error in getUserProfile:", error);
     throw new Error("Failed to fetch profile");
   }
-}
+});
 
 export async function updateUserProfile(formData: FormData) {
   try {
