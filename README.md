@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>
+    <b>Nexocial</b>
+  </h1>
 
-## Getting Started
+  <p>
+    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js"/>
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma"/>
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
+    <img src="https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white" alt="Clerk"/>
+  </p>
+</div>
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 About The Project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Nexocial** is a full-stack social media application built from the ground up using the Next.js App Router. It serves as a comprehensive case study for modern web development, demonstrating how to integrate a variety of powerful tools to create a seamless and performant user experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project features a robust backend powered by Prisma and a serverless Postgres database from Neon, coupled with a reactive frontend built with Server and Client Components.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Key Features
 
-To learn more about Next.js, take a look at the following resources:
+-   🔐 **Authentication**: Secure and easy to use authentication powered by **Clerk**.
+-   🖼️ **Image Uploads**: Seamless image uploads for posts handled by **UploadThing**.
+-   ❤️ **Likes & Comments**: Optimistic UI updates for instant user feedback on interactions.
+-   📜 **Infinite Scrolling Feed**: A performant, infinitely scrolling feed on the homepage and profile pages.
+-   👥 **User Profiles**: Dynamic, server-rendered user profile pages with nested layouts for posts and liked content.
+-   🤝 **Follow System**: Ability for users to follow and unfollow each other.
+-   🔔 **Real-time Notifications**: Instant notifications for likes, comments, and new followers using **Pusher**.
+-   🎨 **Theming**: A beautiful, responsive UI with **Light/Dark mode** toggle, built with **Tailwind CSS** and **ShadCN/UI**.
+-   ✅ **Accessibility & SEO**: Built with semantic HTML, proper metadata, and a focus on high Lighthouse scores.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Built With
 
-## Deploy on Vercel
+| Core & Framework         | Database & ORM             | Authentication & Services | Styling & UI                   |
+| ------------------------ | -------------------------- | ------------------------- | ------------------------------ |
+| **Next.js** (App Router) | **Neon** (Serverless PG)   | **Clerk** (Auth)          | **Tailwind CSS** |
+| **React** (Server/Client)| **Prisma** (ORM)           | **UploadThing** (Storage) | **ShadCN/UI** (Components)     |
+| **TypeScript** |                            | **Pusher** (Real-time)    | **Lucide React** (Icons)       |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🏁 Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+You will need accounts for the following third-party services:
+* **[Neon](https://neon.tech/)** for the PostgreSQL database.
+* **[Clerk](https://clerk.com/)** for authentication.
+* **[Pusher](https://pusher.com/)** for real-time notifications.
+* **[UploadThing](https://uploadthing.com/)** for file uploads.
+
+### Installation
+
+1.  **Install Dependencies**
+    ```sh
+    npm install
+    ```
+
+2.  **Set Up Environment Variables**
+   
+    Your `.env.local` should look like this:
+    ```env
+    BASE_URL="http://localhost:3000"
+
+    DATABASE_URL="postgresql://..."
+
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+    CLERK_SECRET_KEY=sk_test_...
+
+    PUSHER_APP_ID="..."
+    PUSHER_KEY="..."
+    NEXT_PUBLIC_PUSHER_KEY="..."
+    PUSHER_SECRET="..."
+    PUSHER_CLUSTER="..."
+
+    UPLOADTHING_TOKEN=...
+    ```
+
+3.  **Set Up the Database**
+    Run the Prisma migration to create your database schema.
+    ```sh
+    npx prisma generate
+    npx prisma db push
+    ```
+
+4.  **Run the Development Server**
+    You are now ready to start the application.
+    ```sh
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) in your browser.
