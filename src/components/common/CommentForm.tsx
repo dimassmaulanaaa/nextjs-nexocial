@@ -4,16 +4,20 @@ import { useState } from "react";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { SendIcon } from "lucide-react";
+import { getPosts } from "@/actions/post.action";
 import { createComment } from "@/actions/comment.action";
 import SubmitButton from "@/components/common/SubmitButton";
 import UserAvatar from "@/components/common/UserAvatar";
 import { Textarea } from "@/components/ui/textarea";
 
+type Posts = Awaited<ReturnType<typeof getPosts>>[number];
+type PostComment = Posts["comments"][number];
 type CommentFormProps = {
   postId: string;
+  onCommentAdded: (newComment: PostComment) => void;
 };
 
-function CommentForm({ postId }: CommentFormProps) {
+function CommentForm({ postId, onCommentAdded }: CommentFormProps) {
   const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [newComment, setNewComment] = useState("");
@@ -23,8 +27,9 @@ function CommentForm({ postId }: CommentFormProps) {
       setIsLoading(true);
       const result = await createComment(postId, newComment);
 
-      if (result.success) {
+      if (result.success && result.comment) {
         setNewComment("");
+        onCommentAdded(result.comment);
       } else {
         toast.error(result.error || "Failed to post comment");
       }

@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { pusherServer } from "@/lib/pusher";
 import { getCurrentUserId } from "@/actions/user.action";
@@ -31,6 +30,15 @@ export async function createComment(postId: string, content: string) {
           authorId: userId,
           postId,
         },
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              image: true,
+            },
+          },
+        },
       });
 
       if (post.authorId !== userId) {
@@ -56,7 +64,6 @@ export async function createComment(postId: string, content: string) {
       }
     }
 
-    revalidatePath(`/`);
     return { success: true, comment };
   } catch (error) {
     console.error("Error in createComment:", error);

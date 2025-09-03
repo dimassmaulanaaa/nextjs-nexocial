@@ -18,6 +18,7 @@ import PostFeedSkeleton from "@/components/post/PostFeedSkeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
 type Post = Awaited<ReturnType<typeof getPosts>>[number];
+type PostComment = Post["comments"][number];
 type PostFeedProps = {
   userId: string | null;
   post: Post;
@@ -26,12 +27,17 @@ type PostFeedProps = {
 function PostFeed({ userId, post }: PostFeedProps) {
   const { user, isLoaded } = useUser();
   const [isLoading, setIsLoading] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [optimisticComments, setOptimisticComments] = useState(post.comments);
   const [hasLiked, setHasLiked] = useState(post.likes.some((like) => like.userId === userId));
   const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
-  const [showComments, setShowComments] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isLongPost = (post.content?.length || 0) > 300;
+
+  const handleComment = (newComment: PostComment) => {
+    setOptimisticComments((prevComments) => [...prevComments, newComment]);
+  };
 
   const handleLike = async () => {
     if (isLoading) return;
@@ -189,7 +195,7 @@ function PostFeed({ userId, post }: PostFeedProps) {
               <CommentButton
                 isAuthenticated={!!user}
                 showComments={showComments}
-                commentCount={post.comments.length}
+                commentCount={optimisticComments.length}
                 onClick={() => setShowComments((prev) => !prev)}
               />
             </div>
@@ -202,12 +208,11 @@ function PostFeed({ userId, post }: PostFeedProps) {
           {showComments && (
             <div className="space-y-4 pt-4 border-t">
               <div className="space-y-4">
-                {post.comments.map((comment) => (
+                {optimisticComments.map((comment) => (
                   <CommentList key={comment.id} comment={comment} />
                 ))}
               </div>
-
-              <CommentForm postId={post.id} />
+              <CommentForm postId={post.id} onCommentAdded={handleComment} />
             </div>
           )}
         </CardContent>
