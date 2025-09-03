@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import sanitizeHtml from "sanitize-html";
 import prisma from "@/lib/prisma";
 
 export async function syncUser() {
@@ -142,16 +143,16 @@ export async function updateUserProfile(formData: FormData) {
 
     if (!clerkId) throw new Error("Unauthorized");
 
-    const bio = formData.get("bio") as string;
-    const location = formData.get("location") as string;
-    const website = formData.get("website") as string;
+    const bio = sanitizeHtml(formData.get("bio") as string);
+    const location = sanitizeHtml(formData.get("location") as string);
+    const website = sanitizeHtml(formData.get("website") as string);
 
     const user = await prisma.user.update({
       where: { clerkId },
       data: {
-        bio,
-        location,
-        website,
+        bio: bio.trim(),
+        location: location.trim(),
+        website: website.trim(),
       },
     });
 
